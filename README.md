@@ -1,2 +1,138 @@
-# automation.testing.project.user_role_management
-User Role Management
+# User Role Management
+
+## Table of Contents
+
+* [Project Overview](#project-overview)
+* [Project Goal](#project-goal)
+* [Tech Stack](#tech-stack)
+* [Project Structure](#project-structure)
+* [Setup / Installation](#setup--installation)
+* [Running Tests Locally](#running-tests-locally)
+* [CI/CD Pipelines](#cicd-pipelines)
+
+<br/>
+
+## Project Overview
+
+This project demonstrates an **end-to-end automated test workflow** using **Cucumber (BDD)** to validate a complete 
+**user lifecycle and role elevation process**.
+
+The automation validates:
+
+1. Creating a new user
+2. Approving the user
+3. Promoting the user to an admin role
+4. Logging in as the new user
+5. Verifying elevated admin privileges
+
+This project focuses on **role-based access control (RBAC)** validation and business workflow automation.
+
+<br>
+
+## Project Goal
+
+The primary goal of this project is to:
+
+* Demonstrate **Behavior-Driven Development (BDD)** using Cucumber
+* Validate **multi-user workflows**
+* Test **role-based access control (RBAC)** logic
+* Simulate real-world **admin approval and privilege elevation**
+* Showcase clean test design and maintainable automation structure
+
+### What is BDD?
+
+**Behaviour-Driven Development (BDD)** is a software development approach that:
+
+* Encourages collaboration between **developers**, **QA**, and **non-technical stakeholders**
+* Uses **plain language (Gherkin)** to describe application behavior
+* Bridges the gap between **requirements and implementation**
+
+In BDD, tests are written as **scenarios** that describe how the system should behave in specific situations. This makes
+automated tests **readable and understandable by everyone**, not just engineers.
+
+Example of a BDD scenario in this project:
+
+```gherkin
+Scenario: Promote a new user to Admin
+
+Given a new user is created
+And an existing admin approves the new user
+And the admin assigns admin privileges to the new user
+When the new user logs in
+Then the user should have admin access
+```
+
+### What is Gherkin?
+
+Gherkin is a **plain-text language** used to write **BDD test scenarios** in a way that's readable by humans **and**
+executable by tools like Cucumber.
+
+Key points:
+
+* Uses simple keywords like `Given`, `When`, `Then`, `And`, `But`
+* Written in **English (or other supported languages)**
+* Bridges the gap between **technical implementation** and **business requirements**
+
+### Difference between Cucumber and BDD
+
+| Aspect     | BDD                                                          | Cucumber                                                       |
+|:-----------|:-------------------------------------------------------------|:---------------------------------------------------------------| 
+| What it is | A **methodology**; a way to design software around behaviors | A **tool/framework** executes BDD scenarios written in Gherkin |
+| Purpose    | Enciurage collaboration between DEVs, QA and business        | Convert Gherkin scnarios into automated tests                  | 
+| Output     | Plain-text, human-readable scenarios                         | Automated test results in console/HTML/report                  |
+
+### Summary
+
+> BDD is a **methodology** to describe system behavior in plain language.
+>
+> Gherkin is the **language** used to write these behaviors.
+>
+> Cucumber is the **tool** that runs Gherkin scenarios as automated tests.
+
+<br/>
+
+## Tech Stack
+
+* Java 21
+* Cucumber (BDD)
+* Maven 2.x
+* Gherkin
+* Selenium WebDriver
+
+<br/>
+
+## Project Structure
+
+TBC
+
+<br/>
+
+## Setup / Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/vraagakrishna/automation.testing.project.user_role_management.git
+cd automation.testing.project.user_role_management.git 
+```
+
+2. Build the project:
+
+```bash
+mvn clean install
+```
+
+<br/>
+
+## Running Tests Locally
+
+TBC
+
+<br/>
+
+## CI/CD Pipelines
+
+TBC
+
+<br/>
+
