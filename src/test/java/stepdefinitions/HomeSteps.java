@@ -1,28 +1,12 @@
 package stepdefinitions;
 
 import io.cucumber.java.en.Given;
-import org.openqa.selenium.WebDriver;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.RegisterPage;
-import utils.DriverManager;
 
-public class HomeSteps {
-
-    // <editor-fold desc="Class Fields / Constants">
-    private final HomePage homePage;
-
-    private final LoginPage loginPage;
-
-    private final RegisterPage registerPage;
-    // </editor-fold>
+public class HomeSteps extends BaseSteps {
 
     // <editor-fold desc="Ctor">
     public HomeSteps() {
-        WebDriver driver = DriverManager.getDriver();
-        this.homePage = new HomePage(driver);
-        this.loginPage = new LoginPage(driver);
-        this.registerPage = new RegisterPage(driver);
+        super();
     }
     // </editor-fold>
 
@@ -38,6 +22,15 @@ public class HomeSteps {
         loginPage.clickRegisterButton();
 
         registerPage.verifyRegisterPageIsDisplayed();
+    }
+
+    @Given("I am on the login page")
+    public void openLoginPage() {
+        homePage.verifyHomePageIsDisplayed();
+
+        homePage.clickLogin();
+
+        loginPage.verifyLoginPageIsDisplayed();
     }
     // </editor-fold>
 

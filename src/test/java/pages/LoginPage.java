@@ -1,5 +1,6 @@
 package pages;
 
+import model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,17 +32,9 @@ public class LoginPage extends BasePage {
 
     // <editor-fold desc="Public Methods">
     public void verifyLoginPageIsDisplayed() {
-        String expectedHeading = "Login to Access Learning Materials";
         logger.info("Waiting for Login Page to be visible");
-
-        WebElement element = this.getElement(loginHeading);
-
-        String heading = element.getText();
-        logger.info(String.format("Heading found: %s", heading));
-
-        Assert.assertEquals(heading, expectedHeading, "Heading does not match");
-
-        //screenshotUtils.captureAndAttach(driver, "Verifying login page is displayed");
+        String expectedHeading = "Login to Access Learning Materials";
+        this.verifyIfTextDisplayed(loginHeading, expectedHeading);
     }
 
     public void clickRegisterButton() {
@@ -49,34 +42,43 @@ public class LoginPage extends BasePage {
         element.click();
     }
 
-    public void clearLoginForm() {
-        this.enterEmailAddress("");
-        this.enterPassword("");
-    }
-
     public void validateEmailAddress(Object expectedEmailAddress) {
         String heading = this.getEmailAddress();
 
         Assert.assertEquals(heading, expectedEmailAddress, "Email address does not match");
     }
+
+    public void loginUser(User<Object> user) {
+        logger.info("Login user");
+        this.clearLoginForm();
+
+        this.enterEmailAddress(user.getEmail());
+        this.enterPassword(user.getPassword());
+
+        this.clickLoginButton();
+    }
+
+    public void verifyErrorMessage(String expectedMessage) {
+        this.alertUtils.verifyIfAlertMessageIsCorrect(expectedMessage);
+    }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">
-    private void enterEmailAddress(String emailAddress) {
-        WebElement element = this.getElement(emailField);
-        element.clear();
-        element.sendKeys(emailAddress);
+    private void clearLoginForm() {
+        this.enterEmailAddress("");
+        this.enterPassword("");
     }
 
-    private void enterPassword(String password) {
-        WebElement element = this.getElement(passwordField);
-        element.clear();
-        element.sendKeys(password);
+    private void enterEmailAddress(Object emailAddress) {
+        this.enterKeys(emailField, emailAddress);
+    }
+
+    private void enterPassword(Object password) {
+        this.enterKeys(passwordField, password);
     }
 
     private void clickLoginButton() {
-        WebElement element = this.getElement(loginButton);
-        element.click();
+        this.clickButton(loginButton);
     }
 
     public String getEmailAddress() {

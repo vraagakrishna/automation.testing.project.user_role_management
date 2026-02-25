@@ -25,8 +25,8 @@ public class HomePage extends BasePage {
 
     // <editor-fold desc="Public Methods">
     public void verifyHomePageIsDisplayed() {
-        String expectedHeading = "Master Test Automation";
         logger.info("Waiting for Home Page to be visible...");
+        String expectedHeading = "Master Test Automation";
 
         // wait until the element is visible
         WebElement element = this.getElement(homePageTitle);
@@ -39,13 +39,8 @@ public class HomePage extends BasePage {
     }
 
     public void clickLogin() {
-        logger.info("Waiting for Login button to be visible...");
-
-        // wait until the element is visible
-        WebElement element = this.getElement(loginBtn);
-
-        logger.info("Element found; Clicking Login button");
-        element.click();
+        logger.info("Clicking Login button");
+        this.clickButton(loginBtn);
     }
     // </editor-fold>
 

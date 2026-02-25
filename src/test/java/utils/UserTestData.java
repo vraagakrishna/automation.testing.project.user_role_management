@@ -15,7 +15,7 @@ public class UserTestData {
             "gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "icloud.com"
     );
 
-    public static User user;
+    public static User<Object> user;
 
     public String weakPassword = faker.internet()
                                       .password(1, 5, true, true, true);

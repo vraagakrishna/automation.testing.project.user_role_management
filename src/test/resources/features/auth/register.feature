@@ -11,7 +11,7 @@ Feature: User Registration
     Given I attempt to register with the following user data:
       | first name   | last name   | email   | password   | confirm password   | group   |
       | <first_name> | <last_name> | <email> | <password> | <confirm_password> | <group> |
-    Then I should see an error message "<message>"
+    Then I should see a register error message "<message>"
     
     Examples:
       | first_name | last_name | email   | password | confirm_password | group   | message                                     |

@@ -5,28 +5,16 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.User;
-import org.openqa.selenium.WebDriver;
-import pages.LoginPage;
-import pages.RegisterPage;
-import utils.DriverManager;
 import utils.UserTestData;
 
 import java.util.Map;
 import java.util.Objects;
 
-public class RegisterSteps {
-
-    // <editor-fold desc="Class Fields / Constants">
-    private final RegisterPage registerPage;
-
-    private final LoginPage loginPage;
-    // </editor-fold>
+public class RegisterSteps extends BaseSteps {
 
     // <editor-fold desc="Ctor">
     public RegisterSteps() {
-        WebDriver driver = DriverManager.getDriver();
-        this.registerPage = new RegisterPage(driver);
-        this.loginPage = new LoginPage(driver);
+        super();
     }
     // </editor-fold>
 
@@ -68,12 +56,12 @@ public class RegisterSteps {
 
         testData.setUser(user);
 
-        this.registerPage.registerUser(user);
+        registerPage.registerUser(user);
     }
 
-    @Then("I should see an error message {string}")
+    @Then("I should see a register error message {string}")
     public void validateErrorMessage(String errorMessage) {
-        this.registerPage.verifyErrorMessage(errorMessage);
+        registerPage.verifyErrorMessage(errorMessage);
     }
 
     @Given("I have valid user data")
@@ -93,17 +81,36 @@ public class RegisterSteps {
 
     @When("I register the user")
     public void registerValidUser() {
-        this.registerPage.registerUser(UserTestData.user);
+        registerPage.registerUser(UserTestData.user);
     }
 
     @Then("registration should be successful")
     public void validateSuccessRegistration() {
+        this.validateSuccessfulRegistration();
+    }
+
+    @When("a newly registered user exists")
+    public void registerNewUser() {
+        loginPage.clickRegisterButton();
+
+        registerPage.verifyRegisterPageIsDisplayed();
+
+        getValidUserData();
+
+        registerPage.registerUser(UserTestData.user);
+
+        validateSuccessfulRegistration();
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="Private Methods">
+    private void validateSuccessfulRegistration() {
         String successMessage = "Registration submitted successfully. Your account is pending admin approval.";
-        this.registerPage.verifyErrorMessage(successMessage);
+        registerPage.verifyErrorMessage(successMessage);
 
-        this.loginPage.verifyLoginPageIsDisplayed();
+        loginPage.verifyLoginPageIsDisplayed();
 
-        this.loginPage.validateEmailAddress(UserTestData.user.getEmail());
+        loginPage.validateEmailAddress(UserTestData.user.getEmail());
     }
     // </editor-fold>
 

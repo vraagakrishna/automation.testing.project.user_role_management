@@ -19,6 +19,12 @@ public class User<T> {
     // <editor-fold desc="Ctor">
     public User() {
     }
+
+    public User(T email, T password) {
+        this.email = email;
+        this.password = password;
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="Getters and Setters">
