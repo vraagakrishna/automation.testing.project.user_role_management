@@ -8,6 +8,7 @@ import org.testng.Assert;
 import utils.AlertUtils;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -48,6 +49,12 @@ public class BasePage {
         WebElement element = this.getElement(by);
         element.clear();
         element.sendKeys((CharSequence) keys);
+    }
+
+    protected boolean isElementVisible(By by) {
+        List<WebElement> elements = driver.findElements(by);
+        return !elements.isEmpty() && elements.get(0)
+                                              .isDisplayed();
     }
     // </editor-fold>
 

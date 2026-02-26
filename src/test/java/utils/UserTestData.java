@@ -119,8 +119,14 @@ public class UserTestData {
     }
 
     private String generateFakePassword() {
-        return faker.internet()
-                    .password(8, 16, true, true, true);
+        String newPassword;
+
+        do {
+            newPassword = faker.internet()
+                               .password(8, 16, true, true, true);
+        } while (!newPassword.matches(".*[!@#$%^&*()_+\\-={}\\[\\]|:;\"'<>,.?/].*"));
+
+        return newPassword;
     }
     // </editor-fold>
 

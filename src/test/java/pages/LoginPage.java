@@ -2,6 +2,7 @@ package pages;
 
 import model.User;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -32,8 +33,12 @@ public class LoginPage extends BasePage {
 
     // <editor-fold desc="Public Methods">
     public void verifyLoginPageIsDisplayed() {
+        if (!isElementVisible(loginHeading))
+            throw new TimeoutException("Login Heading not displayed");
+
         logger.info("Waiting for Login Page to be visible");
         String expectedHeading = "Login to Access Learning Materials";
+
         this.verifyIfTextDisplayed(loginHeading, expectedHeading);
     }
 

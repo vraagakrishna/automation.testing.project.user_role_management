@@ -77,4 +77,18 @@ public class User<T> {
     }
     // </editor-fold>
 
+    // <editor-fold desc="Overrides">
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", email=" + email +
+                ", password=" + password +
+                ", confirmPassword=" + confirmPassword +
+                ", group=" + group +
+                '}';
+    }
+    // </editor-fold>
+
 }

@@ -1,6 +1,7 @@
 package stepdefinitions;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -51,6 +52,7 @@ public class LoginSteps extends BaseSteps {
     }
 
     @When("I attempt to login with the user")
+    @And("I login as the new user")
     public void loginNewUser() {
         try {
             loginPage.verifyLoginPageIsDisplayed();
