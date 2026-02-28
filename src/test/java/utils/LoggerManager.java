@@ -17,6 +17,9 @@ public class LoggerManager {
     public static Logger getLogger(String className) {
         Logger rootLogger = Logger.getLogger(className);
 
+        // Prevent duplicate logging
+        rootLogger.setUseParentHandlers(false);
+
         // Only add handlers once
         if (rootLogger.getHandlers().length == 0) {
             ConsoleHandler consoleHandler = new ConsoleHandler();
