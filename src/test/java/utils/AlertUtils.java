@@ -13,7 +13,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 public class AlertUtils {
 
     // <editor-fold desc="Class Fields / Constants">
-    private static final Logger logger = Logger.getLogger(AlertUtils.class.getName());
+    private static final Logger logger = LoggerManager.getLogger(AlertUtils.class.getName());
 
     private final WebDriver driver;
     // </editor-fold>

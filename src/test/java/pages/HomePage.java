@@ -5,13 +5,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import utils.LoggerManager;
 
 import java.util.logging.Logger;
 
 public class HomePage extends BasePage {
 
     // <editor-fold desc="Class Fields / Constants">
-    private static final Logger logger = Logger.getLogger(HomePage.class.getName());
+    private static final Logger logger = LoggerManager.getLogger(HomePage.class.getName());
 
     private final By homePageTitle = By.id("overview-hero");
 

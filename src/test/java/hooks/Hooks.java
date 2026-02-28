@@ -5,13 +5,14 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import pages.RegisterPage;
 import utils.DriverManager;
+import utils.LoggerManager;
 import utils.ScreenshotUtils;
 
 import java.util.logging.Logger;
 
 public class Hooks {
 
-    private static final Logger logger = Logger.getLogger(RegisterPage.class.getName());
+    private static final Logger logger = LoggerManager.getLogger(RegisterPage.class.getName());
 
     @Before("@ui")
     public void setUp(Scenario scenario) {

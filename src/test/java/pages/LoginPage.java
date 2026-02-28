@@ -7,13 +7,14 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import utils.LoggerManager;
 
 import java.util.logging.Logger;
 
 public class LoginPage extends BasePage {
 
     // <editor-fold desc="Class Fields / Constants">
-    private static final Logger logger = Logger.getLogger(LoginPage.class.getName());
+    private static final Logger logger = LoggerManager.getLogger(LoginPage.class.getName());
 
     private final By loginHeading = By.id("login-heading");
 
@@ -56,6 +57,7 @@ public class LoginPage extends BasePage {
 
     public void loginUser(User<Object> user) {
         logger.info("Login user User{email=" + user.getEmail() + ",password=" + user.getPassword() + "}");
+        LoggerManager.logToReport("Login user User{email=" + user.getEmail() + ",password=" + user.getPassword() + "}");
         this.clearLoginForm();
 
         this.enterEmailAddress(user.getEmail());

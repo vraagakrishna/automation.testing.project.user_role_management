@@ -6,13 +6,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import utils.LoggerManager;
 
 import java.util.logging.Logger;
 
 public class RegisterPage extends BasePage {
 
     // <editor-fold desc="Class Fields / Constants">
-    private static final Logger logger = Logger.getLogger(RegisterPage.class.getName());
+    private static final Logger logger = LoggerManager.getLogger(RegisterPage.class.getName());
 
     private final By registrationHeading = By.id("registration-heading");
 
@@ -60,6 +61,8 @@ public class RegisterPage extends BasePage {
         user.setGroup(this.getSelectedGroup());
 
         this.clickRegisterButton();
+
+        LoggerManager.logToReport("Registered user " + user);
     }
 
     public void verifyErrorMessage(String expectedMessage) {

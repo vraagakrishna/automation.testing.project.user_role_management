@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import utils.DriverManager;
+import utils.LoggerManager;
 import utils.UserTestData;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.logging.Logger;
 public class DashboardPage extends BasePage {
 
     // <editor-fold desc="Class Fields / Constants">
-    private static final Logger logger = Logger.getLogger(DashboardPage.class.getName());
+    private static final Logger logger = LoggerManager.getLogger(DashboardPage.class.getName());
 
     private final By welcomeBackHeading = By.xpath(
             "//*[@id='app-main-content']//*[self::h2 and contains(., 'Welcome back')]");
@@ -99,6 +101,12 @@ public class DashboardPage extends BasePage {
         this.clickApproval();
 
         this.verifyApprovalSuccessMsg();
+
+        screenshotUtils.captureAndAttach(
+                DriverManager.getDriver(),
+                scenario,
+                "User is approved"
+        );
 
         this.clickBackToWebsiteBtn();
     }

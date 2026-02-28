@@ -7,6 +7,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import utils.LoggerManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
 public class BrowserFactory {
 
     // <editor-fold desc="Class Fields / Constants">
-    private static final Logger logger = Logger.getLogger(BrowserFactory.class.getName());
+    private static final Logger logger = LoggerManager.getLogger(BrowserFactory.class.getName());
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
