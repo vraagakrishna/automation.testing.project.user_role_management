@@ -16,7 +16,11 @@ public class DriverManager {
 
     // <editor-fold desc="Public Methods">
     public static void initDriver(Scenario _scenario) {
-        driver = new BrowserFactory().startBrowser("chrome", true, WEBSITE_URL);
+        driver = new BrowserFactory().startBrowser(
+                ConfigManager.getBrowser(),
+                ConfigManager.isHeadless(),
+                WEBSITE_URL
+        );
         scenario = _scenario;
     }
 

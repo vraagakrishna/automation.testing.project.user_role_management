@@ -140,7 +140,7 @@ cd automation.testing.project.user_role_management.git
 2. Build the project:
 
 ```bash
-mvn clean test
+mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true
 ```
 
 <br/>

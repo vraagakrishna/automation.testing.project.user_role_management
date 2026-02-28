@@ -26,7 +26,7 @@ public class BrowserFactory {
 
     // <editor-fold desc="Public methods">
     public WebDriver startBrowser(String browserName, boolean headless, String url) {
-        logger.info(String.format("Starting browser %s", browserName));
+        logger.info("Starting browser " + browserName);
 
         WebDriver driver;
         switch (browserName.toLowerCase()) {
