@@ -7,7 +7,7 @@
 * [Tech Stack](#tech-stack)
 * [Project Structure](#project-structure)
 * [Setup / Installation](#setup--installation)
-* [Running Tests Locally](#running-tests-locally)
+* [Setup in IntelliJ IDEA (Optional)](#setup-in-intellij-idea--optional-)
 * [CI/CD Pipelines](#cicd-pipelines)
 
 <br/>
@@ -94,8 +94,10 @@ Key points:
 ## Tech Stack
 
 * Java 21
-* Cucumber (BDD)
 * Maven 2.x
+* Git
+* **Google Chrome** or **Microsoft Edge** or **Mozilla Firefox**
+* Cucumber (BDD)
 * Gherkin
 * Selenium WebDriver
 
@@ -138,14 +140,22 @@ cd automation.testing.project.user_role_management.git
 2. Build the project:
 
 ```bash
-mvn clean install
+mvn clean test
 ```
 
 <br/>
 
-## Running Tests Locally
+## Setup in IntelliJ IDEA (Optional)
 
-TBC
+1. Import the project
+
+* Open IntelliJ IDEA.
+* Select **File** -> **Open**, and choose the clone project folder.
+* Wait for IntelliJ to download all Maven dependencies.
+
+2. Open the `testng.xml` file.
+
+3. **Right-click** -> **Run 'testng.xml'**
 
 <br/>
 
