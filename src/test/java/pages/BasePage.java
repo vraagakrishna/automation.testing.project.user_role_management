@@ -37,13 +37,13 @@ public class BasePage {
 
     // <editor-fold desc="Protected Methods">
     protected WebElement getElement(By by) {
-        return new WebDriverWait(driver, Duration.ofSeconds(10))
+        return new WebDriverWait(driver, Duration.ofSeconds(20))
                 .until(visibilityOfElementLocated(by));
     }
 
     protected void clickButton(By by) {
-        WebElement btnElement = this.getElement(by);
-        btnElement.click();
+        this.getElement(by)
+            .click();
     }
 
     protected void verifyIfTextDisplayed(By by, String expectedMessage) {

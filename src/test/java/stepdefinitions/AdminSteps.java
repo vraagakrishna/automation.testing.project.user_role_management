@@ -39,29 +39,27 @@ public class AdminSteps extends BaseSteps {
 
     // <editor-fold desc="Private Methods">
     private void loginAdminAndPerformAction(Runnable action) {
+        User<Object> adminUser = new User<Object>("admin@gmail.com", "@12345678");
+
+        // ensuring the user is on the login page
         try {
-            User<Object> adminUser = new User<Object>("admin@gmail.com", "@12345678");
+            loginPage.verifyLoginPageIsDisplayed();
+        } catch (TimeoutException ex) {
+            homePage.verifyHomePageIsDisplayed();
 
-            // ensuring the user is on the login page
-            try {
-                loginPage.verifyLoginPageIsDisplayed();
-            } catch (TimeoutException ex) {
-                homePage.verifyHomePageIsDisplayed();
+            homePage.clickLogin();
 
-                homePage.clickLogin();
-
-                loginPage.verifyLoginPageIsDisplayed();
-            }
-
-            loginPage.loginUser(adminUser);
-
-            dashboardPage.validateNonUserDashboardIsDisplayed();
-
-            action.run();
-        } finally {
-            if (dashboardPage.validateNonUserDashboardIsDisplayed())
-                dashboardPage.logout();
+            loginPage.verifyLoginPageIsDisplayed();
         }
+
+        loginPage.loginUser(adminUser);
+
+        dashboardPage.validateNonUserDashboardIsDisplayed();
+
+        action.run();
+
+        if (dashboardPage.validateNonUserDashboardIsDisplayed())
+            dashboardPage.logout();
     }
     // </editor-fold>
 

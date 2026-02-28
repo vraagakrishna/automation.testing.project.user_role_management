@@ -55,7 +55,7 @@ public class LoginPage extends BasePage {
     }
 
     public void loginUser(User<Object> user) {
-        logger.info("Login user");
+        logger.info("Login user User{email=" + user.getEmail() + ",password=" + user.getPassword() + "}");
         this.clearLoginForm();
 
         this.enterEmailAddress(user.getEmail());

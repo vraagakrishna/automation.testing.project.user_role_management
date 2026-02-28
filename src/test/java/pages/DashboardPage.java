@@ -20,7 +20,7 @@ public class DashboardPage extends BasePage {
     private final By welcomeBackHeading = By.xpath(
             "//*[@id='app-main-content']//*[self::h2 and contains(., 'Welcome back')]");
 
-    private final By adminDashboard = By.xpath("//section[@class='dashboard-section']/div/p");
+    private final By dashboardSection = By.xpath("//section[@class='dashboard-section']/div/p");
 
     private final By profileBtn = By.xpath("//button[contains(@class, 'user-pill')]");
 
@@ -72,21 +72,16 @@ public class DashboardPage extends BasePage {
     }
 
     public boolean validateNonUserDashboardIsDisplayed() {
-        if (!isElementVisible(adminDashboard))
-            return false;
-
         String expectedHeading = "Here's who's working today";
-        WebElement element = this.getElement(adminDashboard);
+        WebElement element = this.getElement(dashboardSection);
         Assert.assertEquals(element.getText(), expectedHeading, "Non User Dashboard is not displayed");
 
         return true;
     }
 
     public void validateUserDashboardIsDisplayed() {
-        Assert.assertTrue(isElementVisible(adminDashboard), "User Dashboard is not found");
-
         String expectedHeading = "Here's an overview of your learning journey";
-        WebElement element = this.getElement(adminDashboard);
+        WebElement element = this.getElement(dashboardSection);
         Assert.assertEquals(element.getText(), expectedHeading, "User Dashboard is not displayed");
     }
 
