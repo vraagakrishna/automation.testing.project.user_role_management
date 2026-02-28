@@ -161,7 +161,41 @@ mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true
 
 ## CI/CD Pipelines
 
-TBC
+This project is designed to run locally and in Ci environments.
+
+### Pipeline Objectives
+
+* Execute automated UI tests
+* Generate Extent HTML reports
+* Capture logs and screenshots
+* Support cross-browser execution via system properties
+* Allow headless executive for CI environments
+
+### Running Tests in CI
+
+Tests can be triggered using Maven with system properties:
+
+```bash
+mvn clean test -Dbrowser=chrome -Dheadless=true
+```
+
+Supported runtime parameters:
+
+| Parameter | Description                  | Default   |
+|:----------|:-----------------------------|:----------|
+| browser   | Browser to execute tests on  | chrome    |
+| headless  | Run browser in headless mode | true      | 
+| os        | Operating system override    | System OS | 
+
+### Report Artifacts
+
+After execution, the following artifacts are generated:
+
+* `reports/ExtentReport.html` -> Test execution report
+* `/screenshots/` -> Failure or additional screenshots
+* Logs -> Stored via LoggerManager
+
+These artifacts should be archived in the CI pipeline for traceability.
 
 <br/>
 
