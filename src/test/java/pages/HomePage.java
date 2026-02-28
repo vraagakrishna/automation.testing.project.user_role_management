@@ -1,5 +1,6 @@
 package pages;
 
+import io.cucumber.java.Scenario;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,8 +19,8 @@ public class HomePage extends BasePage {
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
-    public HomePage(WebDriver driver) {
-        super(driver);
+    public HomePage(WebDriver driver, Scenario scenario) {
+        super(driver, scenario);
     }
     // </editor-fold>
 

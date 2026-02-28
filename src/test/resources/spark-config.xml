@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+
+    <configuration>
+
+        <theme>DARK</theme>
+        <documentTitle>Extent Report</documentTitle>
+        <reportName>User Role Management</reportName>
+
+        <css>
+            .test-contents {
+            overflow-y: scroll;
+            max-height: 600px;
+            }
+        </css>
+
+    </configuration>
+
+</extentreports>

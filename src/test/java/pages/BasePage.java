@@ -1,11 +1,13 @@
 package pages;
 
+import io.cucumber.java.Scenario;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import utils.AlertUtils;
+import utils.ScreenshotUtils;
 
 import java.time.Duration;
 import java.util.List;
@@ -17,13 +19,19 @@ public class BasePage {
     // <editor-fold desc="Class Fields / Constants">
     protected final WebDriver driver;
 
+    protected final Scenario scenario;
+
     protected final AlertUtils alertUtils;
+
+    protected final ScreenshotUtils screenshotUtils;
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
-    public BasePage(WebDriver driver) {
+    public BasePage(WebDriver driver, Scenario scenario) {
         this.driver = driver;
+        this.scenario = scenario;
         this.alertUtils = new AlertUtils(driver);
+        this.screenshotUtils = new ScreenshotUtils();
     }
     // </editor-fold>
 

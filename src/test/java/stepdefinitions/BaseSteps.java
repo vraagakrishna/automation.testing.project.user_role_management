@@ -1,5 +1,6 @@
 package stepdefinitions;
 
+import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriver;
 import pages.DashboardPage;
 import pages.HomePage;
@@ -22,10 +23,11 @@ public class BaseSteps {
     // <editor-fold desc="Ctor">
     public BaseSteps() {
         WebDriver driver = DriverManager.getDriver();
-        this.homePage = new HomePage(driver);
-        this.registerPage = new RegisterPage(driver);
-        this.loginPage = new LoginPage(driver);
-        this.dashboardPage = new DashboardPage(driver);
+        Scenario scenario = DriverManager.getScenario();
+        this.homePage = new HomePage(driver, scenario);
+        this.registerPage = new RegisterPage(driver, scenario);
+        this.loginPage = new LoginPage(driver, scenario);
+        this.dashboardPage = new DashboardPage(driver, scenario);
     }
     // </editor-fold>
 

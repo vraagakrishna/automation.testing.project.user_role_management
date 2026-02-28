@@ -1,5 +1,6 @@
 package pages;
 
+import io.cucumber.java.Scenario;
 import model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -26,8 +27,8 @@ public class LoginPage extends BasePage {
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
-    public LoginPage(WebDriver driver) {
-        super(driver);
+    public LoginPage(WebDriver driver, Scenario scenario) {
+        super(driver, scenario);
     }
     // </editor-fold>
 
