@@ -14,7 +14,7 @@
 
 ## Project Overview
 
-This project demonstrates an **end-to-end automated test workflow** using **Cucumber (BDD)** to validate a complete 
+This project demonstrates an **end-to-end automated test workflow** using **Cucumber (BDD)** to validate a complete
 **user lifecycle and role elevation process**.
 
 The automation validates:
@@ -103,7 +103,26 @@ Key points:
 
 ## Project Structure
 
-TBC
+```bash
+src
+└── test
+    ├── java
+    │   ├── factory             # Browser creation & WebDriver configuration
+    │   ├── hooks               # Cucumber @Before/@After lifecycle management
+    │   ├── model               # Test data/domain models (e.g., User objects)
+    │   ├── pages               # Page Object Model classes (UI interactions & locators)
+    │   ├── runner              # Cucumber test runners (entry points, tag filtering)
+    │   ├── stepdefinitions     # Gherkin step implementations (test logic layer)
+    │   └── utils               # Reusable helpers (DriverManager, alerts, test data, etc.)
+    │
+    └── resources
+        ├── features            # Gherkin feature files (BDD scenarios)
+        ├── extent.properties   # Extent Reports configuration
+        ├── spark-config.xml    # Spark reporter visual configuration
+        └── testng.xml          # TestNG suite definition (for running Cucumber via TestNG)
+
+pom.xml
+```
 
 <br/>
 
