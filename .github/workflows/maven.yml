@@ -51,7 +51,7 @@ jobs:
       - name: Update Test Report (${{ matrix.browser }})
         uses: actions/upload-artifact@v4
         with:
-          name: ./ExtentReports-${{ matrix.browser }}
+          name: ExtentReports-${{ matrix.browser }}
           path: ./ExtentReports/
           if-no-files-found: warn
 
