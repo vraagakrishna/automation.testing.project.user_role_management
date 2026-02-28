@@ -1,0 +1,41 @@
+package utils;
+
+import factory.BrowserFactory;
+import io.cucumber.java.Scenario;
+import org.openqa.selenium.WebDriver;
+
+public class DriverManager {
+
+    // <editor-fold desc="Class Fields / Constants">
+    public static final String WEBSITE_URL = "https://ndosisimplifiedautomation.vercel.app/";
+
+    private static WebDriver driver;
+
+    private static Scenario scenario;
+    // </editor-fold>
+
+    // <editor-fold desc="Public Methods">
+    public static void initDriver(Scenario _scenario) {
+        driver = new BrowserFactory().startBrowser(
+                ConfigManager.getBrowser(),
+                ConfigManager.isHeadless(),
+                WEBSITE_URL
+        );
+        scenario = _scenario;
+    }
+
+    public static WebDriver getDriver() {
+        return driver;
+    }
+
+    public static Scenario getScenario() {
+        return scenario;
+    }
+
+    public static void quitDriver() {
+        if (driver != null)
+            driver.quit();
+    }
+    // </editor-fold>
+
+}
