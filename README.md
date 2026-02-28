@@ -121,7 +121,8 @@ src
         ├── features            # Gherkin feature files (BDD scenarios)
         ├── extent.properties   # Extent Reports configuration
         ├── spark-config.xml    # Spark reporter visual configuration
-        └── testng.xml          # TestNG suite definition (for running Cucumber via TestNG)
+
+testng.xml          # TestNG suite definition (for running Cucumber via TestNG)
 
 pom.xml
 ```

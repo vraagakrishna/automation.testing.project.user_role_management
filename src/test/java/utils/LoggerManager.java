@@ -9,8 +9,11 @@ import java.util.logging.*;
 
 public class LoggerManager {
 
+    // <editor-fold desc="Class Fields / Constants">
     private static boolean isInitialized = false;
+    // </editor-fold>
 
+    // <editor-fold desc="Public Methods">
     public static Logger getLogger(String className) {
         Logger rootLogger = Logger.getLogger(className);
 
@@ -51,7 +54,9 @@ public class LoggerManager {
     public static void logToReport(String message) {
         ExtentCucumberAdapter.addTestStepLog(message);
     }
+    // </editor-fold>
 
+    // <editor-fold desc="Private Methods">
     private static Formatter getFormatter() {
         return new SimpleFormatter() {
             @Override
@@ -82,5 +87,6 @@ public class LoggerManager {
 
         return reportFolder;
     }
+    // </editor-fold>
 
 }

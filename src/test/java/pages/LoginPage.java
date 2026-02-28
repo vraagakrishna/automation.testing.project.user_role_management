@@ -89,7 +89,7 @@ public class LoginPage extends BasePage {
         this.clickButton(loginButton);
     }
 
-    public String getEmailAddress() {
+    private String getEmailAddress() {
         WebElement element = this.getElement(emailField);
         return element.getDomProperty("value");
     }
