@@ -4,6 +4,7 @@ import io.cucumber.java.Scenario;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import utils.AlertUtils;
@@ -12,6 +13,7 @@ import utils.ScreenshotUtils;
 import java.time.Duration;
 import java.util.List;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class BasePage {
@@ -63,6 +65,17 @@ public class BasePage {
         List<WebElement> elements = driver.findElements(by);
         return !elements.isEmpty() && elements.get(0)
                                               .isDisplayed();
+    }
+
+    protected WebElement waitForDropdownToHaveOptions(By by) {
+        WebElement dropdown = new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(elementToBeClickable(by));
+
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(d ->
+                new Select(dropdown).getOptions()
+                                    .size() > 1);
+
+        return dropdown;
     }
     // </editor-fold>
 

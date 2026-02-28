@@ -101,10 +101,8 @@ public class RegisterPage extends BasePage {
     }
 
     private void selectGroup(int groupIndex) {
-        WebElement element = this.getElement(groupField);
-        while (!element.isEnabled()) {
-            new Select(element).selectByIndex(groupIndex);
-        }
+        WebElement element = this.waitForDropdownToHaveOptions(groupField);
+        new Select(element).selectByIndex(groupIndex);
     }
 
     private String getSelectedGroup() {
