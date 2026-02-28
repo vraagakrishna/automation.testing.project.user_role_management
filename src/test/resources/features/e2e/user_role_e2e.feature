@@ -1,7 +1,7 @@
 Feature: End-to-end User Role Management
   As a system administrator
-  I want to promote users to admin role
-  So that they can manage the system
+  I want to promote and manage users
+  So that system access is controlled properly
   
   Background:
     Given I am on the login page
