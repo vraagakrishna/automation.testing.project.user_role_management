@@ -33,62 +33,28 @@ public class UserTestData {
         return weakPassword;
     }
 
-    public void setWeakPassword(String weakPassword) {
-        this.weakPassword = weakPassword;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
     // </editor-fold>
 
     // <editor-fold desc="Public Methods">
-    public void setUser(User user) {
+    public void setUser(User<Object> user) {
         this.user = user;
-    }
-
-    public void generateNewFirstName() {
-        firstName = generateFakeFirstName();
-    }
-
-    public void generateNewLastName() {
-        lastName = generateFakeLastName();
-    }
-
-    public void generateNewEmail() {
-        email = generateFakeEmail();
-    }
-
-    public void generateNewPassword() {
-        password = generateFakePassword();
     }
     // </editor-fold>
 
