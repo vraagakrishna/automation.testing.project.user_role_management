@@ -135,7 +135,7 @@ pom.xml
 
 ```bash
 git clone https://github.com/vraagakrishna/automation.testing.project.user_role_management.git
-cd automation.testing.project.user_role_management.git 
+cd automation.testing.project.user_role_management 
 ```
 
 2. Build the project:
@@ -162,7 +162,7 @@ mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true
 
 ## CI/CD Pipelines
 
-This project is designed to run locally and in Ci environments.
+This project is designed to run locally and in CI environments.
 
 ### Pipeline Objectives
 
