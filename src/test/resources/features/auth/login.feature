@@ -7,17 +7,17 @@ Feature: User Login
     Given I am on the login page
   
   @ui
-  Scenario Outline: Negative login cases
+  Scenario Outline: Negative login cases: <variant>
     Given I attempt to login with the following user data:
       | email   | password   |
       | <email> | <password> |
     Then I should see a login error message "<message>"
     
     Examples:
-      | email   | password | message                                |
-      | empty   | valid    | Please enter both email and password   |
-      | valid   | empty    | Please enter both email and password   |
-      | invalid | valid    | Invalid credentials. Please try again. |
+      | variant         | email   | password | message                                |
+      | missingEmail    | empty   | valid    | Please enter both email and password   |
+      | missingPassword | valid   | empty    | Please enter both email and password   |
+      | invalidEmail    | invalid | valid    | Invalid credentials. Please try again. |
   
   @ui
   Scenario: Registered user is unable to login until approved
