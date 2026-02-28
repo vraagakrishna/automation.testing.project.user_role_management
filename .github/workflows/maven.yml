@@ -29,7 +29,7 @@ jobs:
         os: [ ubuntu-latest ]
         browser: [ chrome, edge, firefox ]
 
-    runs-on: { { matrix.os } }
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -48,7 +48,7 @@ jobs:
         run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dos=${{ matrix.os }}
 
       # Upload test report
-      - name: Update Test Report (${{ matric.browser }})
+      - name: Update Test Report (${{ matrix.browser }})
         uses: actions/upload-artifact@v4
         with:
           name: ExtentReports-${{ matrix.browser }}/
