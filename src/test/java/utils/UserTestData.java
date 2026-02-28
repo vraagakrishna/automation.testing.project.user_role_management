@@ -90,7 +90,7 @@ public class UserTestData {
         do {
             newPassword = faker.internet()
                                .password(8, 16, true, true, true);
-        } while (!newPassword.matches(".*[!@#$%^&*()_+\\-={}\\[\\]|:;\"'<>,.?/].*"));
+        } while (!newPassword.matches(".*[!@#$%^&*()_+\\-={}\\[\\]|:;\"'<>,.?/].*") && newPassword.length() < 8);
 
         return newPassword;
     }
