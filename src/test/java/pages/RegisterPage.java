@@ -102,7 +102,9 @@ public class RegisterPage extends BasePage {
 
     private void selectGroup(int groupIndex) {
         WebElement element = this.getElement(groupField);
-        new Select(element).selectByIndex(groupIndex);
+        while (!element.isEnabled()) {
+            new Select(element).selectByIndex(groupIndex);
+        }
     }
 
     private String getSelectedGroup() {
