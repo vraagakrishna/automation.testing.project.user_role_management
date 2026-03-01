@@ -4,7 +4,13 @@ permissions:
   contents: read  # Required for checkout
 
 on:
-  workflow_dispatch:  # allow manual runs too
+  workflow_dispatch: # allow manual runs too
+    inputs:
+      branch_name:
+        description: 'The branch to run the workflow against'
+        required: true
+        default: 'main'
+        type: string
 
   push:
     branches:
@@ -33,8 +39,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout code
+      - name: Checkout code on branch ${{ inputs.branch_name }}
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch_name }}
 
       # Set up JDK
       - name: Set up JDK
