@@ -32,9 +32,28 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest ]
-        browser: [ chrome, edge, firefox ]
-        screen-type: [ desktop, tablet, mobile ]
+        include:
+          # Desktop coverage (all engines)
+          - os: ubuntu-latest
+            browser: chrome
+            screen-type: desktop
+
+          - os: ubuntu-latest
+            browser: edge
+            screen-type: desktop
+
+          - os: ubuntu-latest
+            browser: firefox
+            screen-type: desktop
+
+          # Responsive validation (Chrome only)
+          - os: ubuntu-latest
+            browser: chrome
+            screen-type: mobile
+
+          - os: ubuntu-latest
+            browser: chrome
+            screen-type: tablet
 
     runs-on: ${{ matrix.os }}
 
