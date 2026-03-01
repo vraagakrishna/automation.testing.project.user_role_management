@@ -11,7 +11,6 @@ import org.testng.Assert;
 import java.time.Duration;
 import java.util.List;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class UIActions {
@@ -67,14 +66,24 @@ public class UIActions {
     }
 
     protected WebElement waitForDropdownToHaveOptions(By by) {
-        WebElement dropdown = new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(elementToBeClickable(by));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(d ->
-                new Select(dropdown).getOptions()
-                                    .size() > 1);
+        wait.until(d -> {
+            WebElement dropdown = d.findElement(by);
 
-        return dropdown;
+            if (!dropdown.isEnabled()) return false;
+
+            List<WebElement> options = new Select(dropdown).getOptions();
+
+            if (options.size() <= 1) return false;
+
+            String firstOptionText = options.get(0)
+                                            .getText();
+
+            return !firstOptionText.contains("Loading");
+        });
+
+        return driver.findElement(by);
     }
     // </editor-fold>
 
