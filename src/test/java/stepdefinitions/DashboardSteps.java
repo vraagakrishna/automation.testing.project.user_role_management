@@ -24,7 +24,10 @@ public class DashboardSteps extends BaseSteps {
             case "Admin" -> dashboardPage.validateNonUserDashboardIsDisplayed();
             default -> throw new IllegalArgumentException("Unknown User role " + userRole);
         }
+    }
 
+    @And("I logout as the user")
+    public void logoutUser() {
         dashboardPage.logout();
     }
     // </editor-fold>

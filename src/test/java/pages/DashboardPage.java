@@ -108,6 +108,10 @@ public class DashboardPage extends BasePage {
         this.openUserManagementAndPerformAction(user, this::deleteUser);
     }
 
+    public void deactivateUser(User<Object> user) {
+        this.openUserManagementAndPerformAction(user, this::deactivateUser);
+    }
+
     public void logout() {
         logger.info("Logging out...");
         this.navigation.logout();
@@ -214,6 +218,17 @@ public class DashboardPage extends BasePage {
         );
 
         this.alertUtils.verifyIfAlertMessageIsCorrect("User deleted successfully!");
+    }
+
+    private void deactivateUser() {
+        this.clickButton(statusChangeButton);
+
+        this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect(
+                "Are you sure you want to deactivate this user?",
+                true
+        );
+
+        this.alertUtils.verifyIfAlertMessageIsCorrect("User deactivated successfully!");
     }
     // </editor-fold>
 

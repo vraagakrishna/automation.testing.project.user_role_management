@@ -14,11 +14,13 @@ Feature: End-to-end User Role Management
     When I attempt to login with the user
     Then I should see the Dashboard
     And the user role should be "User"
+    And I logout as the user
     
     When the admin changes the user's role to "Admin"
     And I login as the new user
     Then I should see the Dashboard
     And the user role should be "Admin"
+    And I logout as the user
     
     When the admin deletes the user
     And I attempt to login with the user

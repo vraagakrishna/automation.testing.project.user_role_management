@@ -43,6 +43,13 @@ public class AdminSteps extends BaseSteps {
                 adminDashboardPage.deleteUser(UserTestData.user)
         );
     }
+
+    @When("the admin deactivates the user")
+    public void deactivateUser() {
+        this.loginAdminAndPerformAction(adminDashboardPage ->
+                adminDashboardPage.deactivateUser(UserTestData.user)
+        );
+    }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">
