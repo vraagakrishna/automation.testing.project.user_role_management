@@ -109,7 +109,8 @@ Key points:
 src
 └── test
     ├── java
-    │   ├── factory             # Browser creation & WebDriver configuration
+    │   ├── driver              # Browser abstraction layer 
+    │   ├── factory             # High-level factory (BrowserFactory)
     │   ├── hooks               # Cucumber @Before/@After lifecycle management
     │   ├── model               # Test data/domain models (e.g., User objects)
     │   ├── pages               # Page Object Model classes (UI interactions & locators)
