@@ -44,6 +44,16 @@ public class DashboardSteps extends BaseSteps {
         dashboardPage.manipulateTokenRole(userRole);
         dashboardPage.manipulateUserRole(userRole);
     }
+
+    @When("I expire the JWT token in storage")
+    public void expireToken() {
+        dashboardPage.expireToken();
+    }
+
+    @When("I replace the JWT token with an invalid value")
+    public void invalidateToken() {
+        dashboardPage.invalidateToken();
+    }
     // </editor-fold>
 
 }

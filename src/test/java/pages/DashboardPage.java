@@ -143,6 +143,7 @@ public class DashboardPage extends BasePage {
         LoggerManager.logToReport("Token from localStorage: " + token);
 
         logger.info("Token from localStorage " + token);
+        JwtUtils.decodeJwt(token);
 
         UserTestData.user.setToken(token);
 
@@ -187,6 +188,28 @@ public class DashboardPage extends BasePage {
     public void openAdminPanel() {
         logger.info("Opening Admin Panel");
         this.navigation.openAdminPanel();
+    }
+
+    public void expireToken() {
+        String newToken = JwtUtils.expireToken(UserTestData.user.getToken());
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("ExpiredExpired token from localStorage: " + token);
+
+        logger.info("Modified token from localStorage " + token);
+    }
+
+    public void invalidateToken() {
+        String newToken = (String) UserTestData.user.getFirstName();
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Invalid token from localStorage: " + token);
+
+        logger.info("Invalid token from localStorage " + token);
     }
     // </editor-fold>
 

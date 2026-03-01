@@ -80,6 +80,40 @@ public class JwtUtils {
 
         return fakeToken;
     }
+
+    public static String expireToken(String jwtToken) {
+        String[] parts = jwtToken.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid JWT token format");
+        }
+
+        String payloadJson = new String(Base64.getUrlDecoder()
+                                              .decode(parts[1]));
+        JSONObject jsonObject;
+
+        try {
+            JSONParser parser = new JSONParser();
+            jsonObject = (JSONObject) parser.parse(payloadJson);
+            System.out.println("jwtToken: " + payloadJson);
+        } catch (ParseException e) {
+            throw new RuntimeException("Failed to parse JWT payload: " + e.getMessage());
+        }
+
+        // set exp to 1 hour ago
+        long expiredTime = (System.currentTimeMillis() / 1000) - 3600;
+        jsonObject.put("exp", expiredTime);
+
+        // re-encode modified payload
+        String modifiedPayload = Base64.getUrlEncoder()
+                                       .withoutPadding()
+                                       .encodeToString(jsonObject.toString()
+                                                                 .getBytes());
+
+        // keep the same header but break the signature intentionally
+        String fakeToken = parts[0] + "." + modifiedPayload + "." + parts[2];
+
+        return fakeToken;
+    }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">

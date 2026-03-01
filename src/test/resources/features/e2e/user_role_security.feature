@@ -34,3 +34,14 @@ Feature: User Role Security - Authorization Protected
     And I refresh the page
     Then the user role should be "User"
   
+  @ui
+  Scenario: Expired JWT token should log the user out
+    When I expire the JWT token in storage
+    And I refresh the page
+    Then I should be redirected to the login page
+  
+  @ui
+  Scenario: Invalid JWT token should log the user out
+    When I replace the JWT token with an invalid value
+    And I refresh the page
+    Then I should be redirected to the login page
