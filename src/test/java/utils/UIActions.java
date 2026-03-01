@@ -47,6 +47,13 @@ public class UIActions {
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Text does not match");
     }
 
+    protected void verifyIfTextDisplayedAnywhere(String expectedMessage) {
+        boolean messageVisible = driver.findElements(By.xpath("//*[contains(text(), '" + expectedMessage + "')]"))
+                                       .size() > 0;
+
+        Assert.assertTrue(messageVisible, "Expected message not found on login page: " + expectedMessage);
+    }
+
     protected void enterKeys(By by, Object keys) {
         WebElement element = this.getElement(by);
         element.clear();

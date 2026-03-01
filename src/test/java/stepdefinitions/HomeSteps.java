@@ -1,5 +1,6 @@
 package stepdefinitions;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 
 public class HomeSteps extends BaseSteps {
@@ -31,6 +32,11 @@ public class HomeSteps extends BaseSteps {
         homePage.clickLogin();
 
         loginPage.verifyLoginPageIsDisplayed();
+    }
+
+    @And("I should see the message {string}")
+    public void shouldSeeMessage(String expectedMessage) {
+        homePage.shouldSeeMessage(expectedMessage);
     }
     // </editor-fold>
 

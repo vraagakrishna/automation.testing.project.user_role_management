@@ -30,6 +30,11 @@ public class DashboardSteps extends BaseSteps {
     public void logoutUser() {
         dashboardPage.logout();
     }
+
+    @And("I refresh the page")
+    public void refreshPage() {
+        dashboardPage.refreshPage();
+    }
     // </editor-fold>
 
 }

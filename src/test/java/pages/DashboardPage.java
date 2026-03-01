@@ -119,6 +119,19 @@ public class DashboardPage extends BasePage {
         this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect("Are you sure you want to logout?", true);
         screenshotUtils.captureAndAttach(driver, scenario, "After clicking Logout");
     }
+
+    public void refreshPage() {
+        logger.info("Refreshing the page...");
+
+        driver.navigate()
+              .refresh();
+
+        screenshotUtils.captureAndAttach(
+                DriverManager.getDriver(),
+                scenario,
+                "Verifying page is refreshed"
+        );
+    }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">

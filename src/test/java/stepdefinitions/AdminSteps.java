@@ -4,7 +4,6 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import model.User;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import pages.DashboardPage;
 import pages.HomePage;
@@ -65,16 +64,11 @@ public class AdminSteps extends BaseSteps {
 
             User<Object> adminUser = new User<Object>("admin@gmail.com", "@12345678");
 
-            // ensuring the user is on the login page
-            try {
-                adminLoginPage.verifyLoginPageIsDisplayed();
-            } catch (TimeoutException ex) {
-                adminHomePage.verifyHomePageIsDisplayed();
+            adminHomePage.verifyHomePageIsDisplayed();
 
-                adminHomePage.clickLogin();
+            adminHomePage.clickLogin();
 
-                adminLoginPage.verifyLoginPageIsDisplayed();
-            }
+            adminLoginPage.verifyLoginPageIsDisplayed();
 
             adminLoginPage.loginUser(adminUser);
 

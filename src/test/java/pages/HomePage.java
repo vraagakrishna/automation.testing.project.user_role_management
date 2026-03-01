@@ -42,6 +42,11 @@ public class HomePage extends BasePage {
         logger.info("Clicking Login button");
         navigation.goToLoginPage();
     }
+
+    public void shouldSeeMessage(String expectedMessage) {
+        logger.info("Waiting for the expected message to be visible: " + expectedMessage);
+        this.verifyIfTextDisplayedAnywhere(expectedMessage);
+    }
     // </editor-fold>
 
 }
