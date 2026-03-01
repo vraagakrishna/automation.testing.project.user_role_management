@@ -37,7 +37,7 @@ public class JwtUtils {
             JSONObject jsonObject = (JSONObject) parser.parse(payloadJson);
             logger.info("JWT token: " + jsonObject);
 
-            LoggerManager.logToReport("Decoded JWT payload: " + prettyPrintJson(jwtToken));
+            LoggerManager.logToReport("Decoded JWT payload: " + prettyPrintJson(payloadJson));
 
             convertTimeToReadableFormat((Long) jsonObject.get("iat"), "Issued At");
             convertTimeToReadableFormat((Long) jsonObject.get("exp"), "Expiration");
