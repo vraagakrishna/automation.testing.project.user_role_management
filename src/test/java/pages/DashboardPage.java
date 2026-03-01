@@ -68,6 +68,8 @@ public class DashboardPage extends BasePage {
         WebElement element = this.getElement(dashboardSection);
         softAssert.assertEquals(element.getText(), expectedHeading, "Non User Dashboard is not displayed");
 
+        screenshotUtils.captureAndAttach(driver, scenario, "Non User Dashboard is displayed");
+
         return true;
     }
 
@@ -75,6 +77,8 @@ public class DashboardPage extends BasePage {
         String expectedHeading = "Here's an overview of your learning journey";
         WebElement element = this.getElement(dashboardSection);
         softAssert.assertEquals(element.getText(), expectedHeading, "User Dashboard is not displayed");
+
+        screenshotUtils.captureAndAttach(driver, scenario, "User Dashboard is displayed");
     }
 
     public void approveUser(User<Object> user) {
@@ -126,8 +130,6 @@ public class DashboardPage extends BasePage {
 
         driver.navigate()
               .refresh();
-
-        screenshotUtils.captureAndAttach(driver, scenario, "Verifying page is refreshed");
     }
 
     public void validateUserLoggedIn() {
@@ -189,9 +191,9 @@ public class DashboardPage extends BasePage {
         javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
 
         String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
-        LoggerManager.logToReport("ExpiredExpired token from localStorage: " + token);
+        LoggerManager.logToReport("Expired token from localStorage: " + token);
 
-        logger.info("Modified token from localStorage " + token);
+        logger.info("Expired token from localStorage " + token);
     }
 
     public void invalidateToken() {
