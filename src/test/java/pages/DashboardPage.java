@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import utils.DriverManager;
 import utils.JwtUtils;
 import utils.LoggerManager;
 import utils.UserTestData;
@@ -93,11 +92,7 @@ public class DashboardPage extends BasePage {
 
         this.verifyApprovalSuccessMsg();
 
-        screenshotUtils.captureAndAttach(
-                DriverManager.getDriver(),
-                scenario,
-                "User is approved"
-        );
+        screenshotUtils.captureAndAttach(driver, scenario, "User is approved");
 
         this.clickBackToWebsiteBtn();
     }
@@ -120,8 +115,10 @@ public class DashboardPage extends BasePage {
         logger.info("Logging out...");
         this.navigation.logout();
 
-        this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect("Are you sure you want to logout?", true);
-        screenshotUtils.captureAndAttach(driver, scenario, "After clicking Logout");
+        this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect(
+                "Are you sure you want to logout?",
+                true
+        );
     }
 
     public void refreshPage() {
@@ -130,11 +127,7 @@ public class DashboardPage extends BasePage {
         driver.navigate()
               .refresh();
 
-        screenshotUtils.captureAndAttach(
-                DriverManager.getDriver(),
-                scenario,
-                "Verifying page is refreshed"
-        );
+        screenshotUtils.captureAndAttach(driver, scenario, "Verifying page is refreshed");
     }
 
     public void validateUserLoggedIn() {
