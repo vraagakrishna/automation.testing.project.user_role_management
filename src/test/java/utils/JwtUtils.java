@@ -66,7 +66,7 @@ public class JwtUtils {
             throw new RuntimeException("Failed to parse JWT payload: " + e.getMessage());
         }
 
-        // manipulate usr role
+        // manipulate user role
         jsonObject.put("role", newUserRole.toLowerCase());
 
         // re-encode modified payload
