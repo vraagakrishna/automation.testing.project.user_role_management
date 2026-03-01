@@ -24,6 +24,7 @@ public class UiTestRunner extends AbstractTestNGCucumberTests {
         // Set system properties using ConfigManager defaults if not already set
         System.setProperty("systeminfo.browser", ConfigManager.getBrowser());
         System.setProperty("systeminfo.os", ConfigManager.getOS());
+        System.setProperty("systeminfo.screenType", ConfigManager.getScreenType());
 
         LoggerManager.initializeFileLogging();
     }

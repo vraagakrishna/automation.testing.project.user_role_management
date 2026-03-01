@@ -11,7 +11,7 @@ public class DashboardSteps extends BaseSteps {
     }
     // </editor-fold>
 
-    // <editor-fold desc="Ctor">
+    // <editor-fold desc="Public Methods">
     @Then("I should see the Dashboard")
     public void validateDashboard() {
         dashboardPage.verifyDashboardIsDisplayed();

@@ -170,6 +170,7 @@ This project is designed to run locally and in CI environments.
 * Generate Extent HTML reports
 * Capture logs and screenshots
 * Support cross-browser execution via system properties
+* Support responsive UI validation (desktop / tablet / mobile)
 * Allow headless executive for CI environments
 
 ### Running Tests in CI
@@ -177,16 +178,50 @@ This project is designed to run locally and in CI environments.
 Tests can be triggered using Maven with system properties:
 
 ```bash
-mvn clean test -Dbrowser=chrome -Dheadless=true
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=desktop
 ```
 
 Supported runtime parameters:
 
-| Parameter | Description                  | Default   |
-|:----------|:-----------------------------|:----------|
-| browser   | Browser to execute tests on  | chrome    |
-| headless  | Run browser in headless mode | true      | 
-| os        | Operating system override    | System OS | 
+| Parameter  | Description                           | Default   |
+|:-----------|:--------------------------------------|:----------|
+| browser    | Browser to execute tests on           | chrome    |
+| headless   | Run browser in headless mode          | true      | 
+| os         | Operating system override             | System OS | 
+| screenType | Screen size for responsive UI testing | desktop   | 
+
+### Screen Size Options
+
+The framework supports responsive layout validations by adjusting browser window size at runtime.
+
+| screenType | Resolution (Width x Height) | Description                  |
+|:-----------|:----------------------------|:-----------------------------| 
+| desktop    | 1920 x 1080                 | Standard laptop/desktop view | 
+| tablet     | 768 x 1024                  | Tablet portrait layout       |
+| mobile     | 375 x 182                   | Mobile phone layout          |
+
+Screen size is controlled via the `screenType` system property and is automatically handled by the `DriverManager`
+and `NavigationFactory`.
+
+### Example Executions
+
+Desktop (default):
+
+```bash
+mvn clean test -Dbrowser=chrome
+```
+
+Mobile (headless):
+
+```bash
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=mobile
+```
+
+Cross-browser + mobile:
+
+```bash
+mvn clean test -Dbrowser=firefox -DscreenType=mobile
+```
 
 ### Report Artifacts
 

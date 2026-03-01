@@ -28,6 +28,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         browser: [ chrome, edge, firefox ]
+        screen-type: [ desktop, tablet, mobile ]
 
     runs-on: ${{ matrix.os }}
 
@@ -44,14 +45,14 @@ jobs:
           cache: maven
 
       # Run Tests
-      - name: Run Tests on ${{ matrix.browser }}
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dos=${{ matrix.os }}
+      - name: Run Tests on ${{ matrix.browser }} in ${{ matrix.screen-type }}
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dos=${{ matrix.os }} -DscreenType=${{ matrix.screen-type }}
 
       # Upload test report
-      - name: Update Test Report (${{ matrix.browser }})
+      - name: Upload Test Report (${{ matrix.browser }}, ${{ matrix.screen-type }})
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ExtentReports-${{ matrix.browser }}
+          name: ExtentReports-${{ matrix.browser }}-${{ matrix-screen-type }}
           path: ./ExtentReports/
           if-no-files-found: warn

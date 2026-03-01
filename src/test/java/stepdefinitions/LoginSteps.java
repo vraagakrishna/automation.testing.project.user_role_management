@@ -68,7 +68,6 @@ public class LoginSteps extends BaseSteps {
     public void newlyLoginFailed() {
         loginPage.verifyErrorMessage("Invalid credentials. Please try again.");
     }
-
     // </editor-fold>
 
 }

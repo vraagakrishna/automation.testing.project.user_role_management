@@ -15,8 +15,6 @@ public class HomePage extends BasePage {
     private static final Logger logger = LoggerManager.getLogger(HomePage.class.getName());
 
     private final By homePageTitle = By.id("overview-hero");
-
-    private final By loginBtn = By.xpath("//button[@class='user-pill'][contains(., 'Login')]");
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
@@ -42,7 +40,7 @@ public class HomePage extends BasePage {
 
     public void clickLogin() {
         logger.info("Clicking Login button");
-        this.clickButton(loginBtn);
+        navigation.goToLoginPage();
     }
     // </editor-fold>
 

@@ -18,6 +18,7 @@ public class DriverManager {
     public static void initDriver(Scenario _scenario) {
         driver = new BrowserFactory().startBrowser(
                 ConfigManager.getBrowser(),
+                ConfigManager.getScreenType(),
                 ConfigManager.isHeadless(),
                 WEBSITE_URL
         );

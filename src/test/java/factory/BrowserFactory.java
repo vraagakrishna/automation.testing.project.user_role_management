@@ -25,8 +25,25 @@ public class BrowserFactory {
     // </editor-fold>
 
     // <editor-fold desc="Public methods">
-    public WebDriver startBrowser(String browserName, boolean headless, String url) {
-        logger.info("Starting browser " + browserName);
+    public WebDriver startBrowser(String browserName, String screenType, boolean headless, String url) {
+        logger.info("Starting browser " + browserName + " in screen type " + screenType);
+
+        int width, height;
+        switch (screenType.toLowerCase()) {
+            case "mobile" -> {
+                width = 372;
+                height = 812;
+            }
+            case "tablet" -> {
+                width = 768;
+                height = 1024;
+            }
+            case "desktop" -> {
+                width = 1920;
+                height = 1080;
+            }
+            default -> throw new IllegalArgumentException("Unsupported screenType: " + screenType);
+        }
 
         WebDriver driver;
         switch (browserName.toLowerCase()) {
@@ -37,8 +54,8 @@ public class BrowserFactory {
                 chromeOptions.addArguments("--disable-notifications");
 
                 if (headless)
-                    chromeOptions.addArguments("--headless");
-                chromeOptions.addArguments("--window-size=1920,1080");
+                    chromeOptions.addArguments("--headless=new");
+                chromeOptions.addArguments("--window-size=" + width + "," + height);
 
                 driver = new ChromeDriver(chromeOptions);
             }
@@ -47,7 +64,8 @@ public class BrowserFactory {
 
                 if (headless)
                     firefoxOptions.addArguments("--headless");
-                firefoxOptions.addArguments("--window-size=1920,1080");
+                firefoxOptions.addArguments("--width=" + width);
+                firefoxOptions.addArguments("--height=" + height);
 
                 driver = new FirefoxDriver(firefoxOptions);
             }
@@ -61,7 +79,7 @@ public class BrowserFactory {
 
                 if (headless)
                     edgeOptions.addArguments("--headless=new");
-                edgeOptions.addArguments("--window-size=1920,1080");
+                edgeOptions.addArguments("--window-size=" + width + "," + height);
 
                 driver = new EdgeDriver(edgeOptions);
             }

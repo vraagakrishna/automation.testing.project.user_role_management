@@ -24,15 +24,6 @@ public class DashboardPage extends BasePage {
 
     private final By dashboardSection = By.xpath("//section[@class='dashboard-section']/div/p");
 
-    private final By profileBtn = By.xpath("//button[contains(@class, 'user-pill')]");
-
-    private final By adminPanelBtn = By.xpath(
-            "//button[contains(@class, 'nav-dropdown-item') and contains(., 'Admin Panel')]");
-
-    private final By approvalsNavBtn = By.xpath("//nav//button[contains(., 'Approvals')]");
-
-    private final By usersNavBtn = By.xpath("//nav//button[contains(text(), 'Users')]");
-
     private final By groupDropdown = By.xpath(
             "//div[contains(@class, 'admin-main-content')]//select[./option[contains(text(), 'All Groups')]]");
 
@@ -53,11 +44,7 @@ public class DashboardPage extends BasePage {
 
     private final By deleteButton = By.xpath("//td[7]//button[2]");
 
-    private final By backToWebsiteBtn = By.xpath(
-            "//div[contains(@class, 'admin-sidebar-footer')]//button[contains(., 'Back to Website')]");
-
-    private final By logoutBtn = By.xpath(
-            "//button[contains(@class, 'nav-dropdown-item') and contains(., 'Logout')]");
+    private final By statusChangeButton = By.xpath("//td[5]//button");
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
@@ -122,25 +109,28 @@ public class DashboardPage extends BasePage {
     }
 
     public void logout() {
-        this.clickButton(profileBtn);
-        this.clickButton(logoutBtn);
+        logger.info("Logging out...");
+        this.navigation.logout();
 
         this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect("Are you sure you want to logout?", true);
+        screenshotUtils.captureAndAttach(driver, scenario, "After clicking Logout");
     }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">
     private void openAdminPanel() {
-        this.clickButton(profileBtn);
-        this.clickButton(adminPanelBtn);
+        logger.info("Opening Admin Panel");
+        this.navigation.openAdminPanel();
     }
 
     private void openApprovalsPage() {
-        this.clickButton(approvalsNavBtn);
+        logger.info("Opening Approvals page");
+        this.navigation.openApprovalsPage();
     }
 
     private void openUsersPage() {
-        this.clickButton(usersNavBtn);
+        logger.info("Opening Users page");
+        this.navigation.openUsersPage();
     }
 
     private void selectGroup(Object group) {
@@ -177,7 +167,8 @@ public class DashboardPage extends BasePage {
     }
 
     private void clickBackToWebsiteBtn() {
-        this.clickButton(backToWebsiteBtn);
+        logger.info("Going back to Website");
+        this.navigation.clickBackToWebsiteBtn();
     }
 
     private void openUserManagementAndPerformAction(User<Object> user, Runnable action) {
