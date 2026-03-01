@@ -14,12 +14,11 @@ Feature: User Management - Account Lifecycle & Session Handling
     When I attempt to login with the user
     Then I should see the Dashboard
     And the user role should be "User"
-    And I logout as the user
     
     When the admin deactivates the user
     And I refresh the page
     Then I should be redirected to the login page
-    And I should see the message "Your account has been deactivated"
+    And I should see the message "User not found or inactive"
   
   @ui
   Scenario: Deleted user should be logged out on refresh
@@ -29,12 +28,11 @@ Feature: User Management - Account Lifecycle & Session Handling
     When I attempt to login with the user
     Then I should see the Dashboard
     And the user role should be "User"
-    And I logout as the user
     
     When the admin deletes the user
     And I refresh the page
     Then I should be redirected to the login page
-    And I should see the message "User does not exist"
+    And I should see the message "User not found or inactive"
   
   @ui
   Scenario: User cannot login after being deactivated
