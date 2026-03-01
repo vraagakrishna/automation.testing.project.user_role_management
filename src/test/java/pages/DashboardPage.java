@@ -2,12 +2,16 @@ package pages;
 
 import io.cucumber.java.Scenario;
 import model.User;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import utils.DriverManager;
+import utils.JwtUtils;
 import utils.LoggerManager;
 import utils.UserTestData;
 
@@ -63,7 +67,7 @@ public class DashboardPage extends BasePage {
     public boolean validateNonUserDashboardIsDisplayed() {
         String expectedHeading = "Here's who's working today";
         WebElement element = this.getElement(dashboardSection);
-        Assert.assertEquals(element.getText(), expectedHeading, "Non User Dashboard is not displayed");
+        softAssert.assertEquals(element.getText(), expectedHeading, "Non User Dashboard is not displayed");
 
         return true;
     }
@@ -71,7 +75,7 @@ public class DashboardPage extends BasePage {
     public void validateUserDashboardIsDisplayed() {
         String expectedHeading = "Here's an overview of your learning journey";
         WebElement element = this.getElement(dashboardSection);
-        Assert.assertEquals(element.getText(), expectedHeading, "User Dashboard is not displayed");
+        softAssert.assertEquals(element.getText(), expectedHeading, "User Dashboard is not displayed");
     }
 
     public void approveUser(User<Object> user) {
@@ -132,14 +136,61 @@ public class DashboardPage extends BasePage {
                 "Verifying page is refreshed"
         );
     }
-    // </editor-fold>
 
-    // <editor-fold desc="Private Methods">
-    private void openAdminPanel() {
+    public void validateUserLoggedIn() {
+        logger.info("Checking if token exists in local storage");
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Token from localStorage: " + token);
+
+        logger.info("Token from localStorage " + token);
+
+        UserTestData.user.setToken(token);
+
+        Assert.assertNotNull(token, "Auth token is not present");
+    }
+
+    public void manipulateTokenRole(String userRole) {
+        String newToken = JwtUtils.manipulateJwtRole(
+                UserTestData.user.getToken(),
+                userRole
+        );
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Modified token from localStorage: " + token);
+
+        logger.info("Modified token from localStorage " + token);
+    }
+
+    public void manipulateUserRole(String userRole) {
+        String user = javascriptExecutorUtils.getLocalStorageItem("user");
+        JSONObject jsonUser;
+
+        try {
+            JSONParser parser = new JSONParser();
+            jsonUser = (JSONObject) parser.parse(user);
+            System.out.println("Original user: " + user);
+        } catch (ParseException e) {
+            throw new RuntimeException("Failed to parse JSON payload: " + e.getMessage());
+        }
+
+        // manipulate usr role
+        jsonUser.put("role", userRole.toLowerCase());
+
+        javascriptExecutorUtils.setLocalStorageItem("user", jsonUser.toJSONString());
+
+        String modifiedUser = javascriptExecutorUtils.getLocalStorageItem("user");
+        logger.info("Modified user " + modifiedUser);
+    }
+
+    public void openAdminPanel() {
         logger.info("Opening Admin Panel");
         this.navigation.openAdminPanel();
     }
+    // </editor-fold>
 
+    // <editor-fold desc="Private Methods">
     private void openApprovalsPage() {
         logger.info("Opening Approvals page");
         this.navigation.openApprovalsPage();

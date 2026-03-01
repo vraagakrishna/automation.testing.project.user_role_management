@@ -1,0 +1,36 @@
+Feature: User Role Security - Authorization Protected
+  As a system
+  I want to prevent privilege escalation
+  So that users cannot gain unauthorized access
+  
+  Background:
+    Given I am on the login page
+    
+    Given a newly registered user exists
+    And the admin approves the user
+    
+    When I attempt to login with the user
+    Then I should see the Dashboard
+    And the user role should be "User"
+  
+  @ui
+  Scenario: JWT manipulation should not grant admin access
+    When I modify the user role to "Admin" in storage
+    Then I refresh the page
+    And the user role should be "User"
+    
+    When I navigate to the Admin Panel
+    Then I should be redirected to the login page
+  
+  @ui
+  Scenario: Role downgrade while logged in should remove privileges
+    And I logout as the user
+    
+    Given the admin changes the user's role to "Admin"
+    And I attempt to login with the user
+    Then the user role should be "Admin"
+    
+    When the admin changes the user's role to "User"
+    And I refresh the page
+    Then the user role should be "User"
+  

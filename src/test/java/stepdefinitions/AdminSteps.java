@@ -2,6 +2,7 @@ package stepdefinitions;
 
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.User;
 import org.openqa.selenium.WebDriver;
@@ -48,6 +49,11 @@ public class AdminSteps extends BaseSteps {
         this.loginAdminAndPerformAction(adminDashboardPage ->
                 adminDashboardPage.deactivateUser(UserTestData.user)
         );
+    }
+
+    @Then("I navigate to the Admin Panel")
+    public void openAdminPanel() {
+        dashboardPage.openAdminPanel();
     }
     // </editor-fold>
 
