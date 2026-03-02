@@ -26,7 +26,6 @@ public class User<T> {
         this.email = email;
         this.password = password;
     }
-
     // </editor-fold>
 
     // <editor-fold desc="Getters and Setters">

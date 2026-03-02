@@ -73,7 +73,7 @@ jobs:
 
       # Run Tests
       - name: Run Tests on ${{ matrix.browser }} in ${{ matrix.screen-type }}
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dos=${{ matrix.os }} -DscreenType=${{ matrix.screen-type }}
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dos=${{ matrix.os }} -DscreenType=${{ matrix.screen-type }} -DADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }} -DADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
 
       # Upload test report
       - name: Upload Test Report (${{ matrix.browser }}, ${{ matrix.screen-type }})

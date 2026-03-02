@@ -69,7 +69,10 @@ public class AdminSteps extends BaseSteps {
             HomePage adminHomePage = new HomePage(adminDriver, scenario);
             DashboardPage adminDashboardPage = new DashboardPage(adminDriver, scenario);
 
-            User<Object> adminUser = new User<Object>("admin@gmail.com", "@12345678");
+            User<Object> adminUser = new User<Object>(
+                    System.getProperty("ADMIN_EMAIL", System.getenv("ADMIN_EMAIL")),
+                    System.getProperty("ADMIN_PASSWORD", System.getenv("ADMIN_PASSWORD"))
+            );
 
             adminHomePage.verifyHomePageIsDisplayed();
 

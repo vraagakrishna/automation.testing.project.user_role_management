@@ -142,7 +142,7 @@ cd automation.testing.project.user_role_management
 2. Build the project:
 
 ```bash
-mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true
+mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true -DscreenType=SCREEN_TYPE -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
 
 <br/>
@@ -179,7 +179,7 @@ This project is designed to run locally and in CI environments.
 Tests can be triggered using Maven with system properties:
 
 ```bash
-mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=desktop
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=desktop -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
 
 Supported runtime parameters:
@@ -209,19 +209,19 @@ and `NavigationFactory`.
 Desktop (default):
 
 ```bash
-mvn clean test -Dbrowser=chrome
+mvn clean test -Dbrowser=chrome -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
 
 Mobile (headless):
 
 ```bash
-mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=mobile
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=mobile -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
 
 Cross-browser + mobile:
 
 ```bash
-mvn clean test -Dbrowser=firefox -DscreenType=mobile
+mvn clean test -Dbrowser=firefox -DscreenType=mobile -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
 
 ### Report Artifacts
