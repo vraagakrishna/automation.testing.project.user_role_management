@@ -70,8 +70,8 @@ public class LoginSteps extends BaseSteps {
     }
 
     @Then("I should be redirected to the login page")
-    public void validateLoginPage() {
-        loginPage.verifyLoginPageIsDisplayed();
+    public void validateLoginRequiredPage() {
+        loginPage.verifyLoginRequired();
     }
     // </editor-fold>
 
