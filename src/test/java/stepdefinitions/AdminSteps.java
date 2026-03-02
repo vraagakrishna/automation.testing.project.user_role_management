@@ -10,6 +10,7 @@ import pages.DashboardPage;
 import pages.HomePage;
 import pages.LoginPage;
 import utils.DriverManager;
+import utils.ScreenshotUtils;
 import utils.UserTestData;
 
 import java.util.function.Consumer;
@@ -84,7 +85,16 @@ public class AdminSteps extends BaseSteps {
 
             if (adminDashboardPage.validateNonUserDashboardIsDisplayed())
                 adminDashboardPage.logout();
+        } catch (Throwable t) {
+            // Capture screenshot BEFORE killing driver
+            ScreenshotUtils screenshotUtils = new ScreenshotUtils();
+            screenshotUtils.captureAndAttach(
+                    adminDriver,
+                    scenario,
+                    "Admin session failure"
+            );
 
+            throw t; // rethrow so scenario still fails
         } finally {
             // clean up the temp admin session
             DriverManager.quitDriver(adminDriver);
