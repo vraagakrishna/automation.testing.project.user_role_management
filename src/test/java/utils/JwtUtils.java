@@ -75,10 +75,8 @@ public class JwtUtils {
                                        .encodeToString(jsonObject.toString()
                                                                  .getBytes());
 
-        // keep the same header but break the signature intentionally
-        String fakeToken = parts[0] + "." + modifiedPayload + "." + parts[2];
-
-        return fakeToken;
+        // keep the same header but break the payload intentionally
+        return parts[0] + "." + modifiedPayload + "." + parts[2];
     }
 
     public static String expireToken(String jwtToken) {
@@ -109,10 +107,49 @@ public class JwtUtils {
                                        .encodeToString(jsonObject.toString()
                                                                  .getBytes());
 
-        // keep the same header but break the signature intentionally
-        String fakeToken = parts[0] + "." + modifiedPayload + "." + parts[2];
+        // keep the same header but break the payload intentionally
+        return parts[0] + "." + modifiedPayload + "." + parts[2];
+    }
 
-        return fakeToken;
+    public static String removeSignature(String jwtToken) {
+        String[] parts = jwtToken.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid JWT token format");
+        }
+
+        // remove signature
+        return parts[0] + "." + parts[1] + ".";
+    }
+
+    public static String manipulateTokenAlgorithm(String jwtToken, String mewAlgo) {
+        String[] parts = jwtToken.split("\\.");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid JWT token format");
+        }
+
+        String headerJson = new String(Base64.getUrlDecoder()
+                                             .decode(parts[0]));
+        JSONObject jsonObject;
+
+        try {
+            JSONParser parser = new JSONParser();
+            jsonObject = (JSONObject) parser.parse(headerJson);
+            System.out.println("jwtToken: " + headerJson);
+        } catch (ParseException e) {
+            throw new RuntimeException("Failed to parse JWT header: " + e.getMessage());
+        }
+
+        // manipulate algorithm
+        jsonObject.put("alg", mewAlgo.toLowerCase());
+
+        // re-encode modified payload
+        String modifiedHeader = Base64.getUrlEncoder()
+                                      .withoutPadding()
+                                      .encodeToString(jsonObject.toString()
+                                                                .getBytes());
+
+        // keep the same header but break the algorithm intentionally
+        return modifiedHeader + "." + parts[1] + "." + parts[2];
     }
     // </editor-fold>
 

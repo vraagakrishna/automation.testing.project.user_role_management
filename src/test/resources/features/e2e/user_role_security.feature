@@ -45,3 +45,28 @@ Feature: User Role Security - Authorization Protected
     When I replace the JWT token with an invalid value
     And I refresh the page
     Then I should be redirected to the login page
+  
+  @ui
+  Scenario: JWT without signature should be rejected
+    When I remove the JWT signature in the storage
+    And I refresh the page
+    Then I should be redirected to the login page
+  
+  @ui
+  Scenario: JWT with algorithm set to none should be rejected
+    When I modify the JWT algorithm to "none"
+    And I refresh the page
+    Then I should be redirected to the login page
+  
+  @ui
+  Scenario: Logout in one tab should invalidate session in another tab
+    When I open a new browser tab
+    And I switch to tab 2
+    When I should see the Dashboard
+    
+    When I switch to tab 1
+    And I logout as the user
+    
+    When I switch back to tab 2
+    And I refresh the page
+    Then I should be redirected to the login page

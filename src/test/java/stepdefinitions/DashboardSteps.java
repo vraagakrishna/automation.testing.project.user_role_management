@@ -51,8 +51,29 @@ public class DashboardSteps extends BaseSteps {
     }
 
     @When("I replace the JWT token with an invalid value")
-    public void invalidateToken() {
-        dashboardPage.invalidateToken();
+    public void setInvalidToken() {
+        dashboardPage.setInvalidToken();
+    }
+
+    @When("I remove the JWT signature in the storage")
+    public void removeTokenSignature() {
+        dashboardPage.removeTokenSignature();
+    }
+
+    @When("I modify the JWT algorithm to {string}")
+    public void manipulateTokenAlgorithm(String newAlgo) {
+        dashboardPage.manipulateTokenAlgorithm(newAlgo);
+    }
+
+    @When("I open a new browser tab")
+    public void openNewBrowser() {
+        dashboardPage.openNewBrowser();
+    }
+
+    @And("I switch to tab {int}")
+    @When("I switch back to tab {int}")
+    public void switchToTab(int tabNumber) {
+        dashboardPage.switchToTab(tabNumber);
     }
     // </editor-fold>
 

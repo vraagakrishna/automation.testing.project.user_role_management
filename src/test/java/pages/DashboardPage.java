@@ -8,12 +8,14 @@ import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import utils.JwtUtils;
 import utils.LoggerManager;
 import utils.UserTestData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -196,7 +198,7 @@ public class DashboardPage extends BasePage {
         logger.info("Expired token from localStorage " + token);
     }
 
-    public void invalidateToken() {
+    public void setInvalidToken() {
         String newToken = (String) UserTestData.user.getFirstName();
 
         javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
@@ -205,6 +207,53 @@ public class DashboardPage extends BasePage {
         LoggerManager.logToReport("Invalid token from localStorage: " + token);
 
         logger.info("Invalid token from localStorage " + token);
+    }
+
+    public void removeTokenSignature() {
+        String newToken = JwtUtils.removeSignature(UserTestData.user.getToken());
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("No signature token from localStorage: " + token);
+
+        logger.info("No signature token from localStorage " + token);
+    }
+
+    public void manipulateTokenAlgorithm(String newAlgo) {
+        String newToken = JwtUtils.manipulateTokenAlgorithm(
+                UserTestData.user.getToken(),
+                newAlgo
+        );
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Modified token algorithm: " + token);
+
+        logger.info("Modified token algorithm " + token);
+    }
+
+    public void openNewBrowser() {
+        String tab1 = driver.getWindowHandle();
+
+        String currentUrl = driver.getCurrentUrl();
+
+        driver.switchTo()
+              .newWindow(WindowType.TAB);
+        driver.get(currentUrl);
+
+        driver.switchTo()
+              .window(tab1);
+    }
+
+    public void switchToTab(int tabNumber) {
+        // Store all window handles
+        List<String> tabs = new ArrayList<>(driver.getWindowHandles());
+
+        // Switch to second tab (index 1)
+        driver.switchTo()
+              .window(tabs.get(tabNumber - 1));
     }
     // </editor-fold>
 
