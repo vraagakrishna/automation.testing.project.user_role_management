@@ -4,7 +4,13 @@ permissions:
   contents: read  # Required for checkout
 
 on:
-  workflow_dispatch:  # allow manual runs too
+  workflow_dispatch: # allow manual runs too
+    inputs:
+      branch_name:
+        description: 'The branch to run the workflow against'
+        required: true
+        default: 'main'
+        type: string
 
   push:
     branches:
@@ -26,14 +32,36 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest ]
-        browser: [ chrome, edge, firefox ]
+        include:
+          # Desktop coverage (all engines)
+          - os: ubuntu-latest
+            browser: chrome
+            screen-type: desktop
+
+          - os: ubuntu-latest
+            browser: edge
+            screen-type: desktop
+
+          - os: ubuntu-latest
+            browser: firefox
+            screen-type: desktop
+
+          # Responsive validation (Chrome only)
+          - os: ubuntu-latest
+            browser: chrome
+            screen-type: mobile
+
+          - os: ubuntu-latest
+            browser: chrome
+            screen-type: tablet
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout code
+      - name: Checkout code on branch ${{ inputs.branch_name }}
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch_name }}
 
       # Set up JDK
       - name: Set up JDK
@@ -44,14 +72,14 @@ jobs:
           cache: maven
 
       # Run Tests
-      - name: Run Tests on ${{ matrix.browser }}
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dos=${{ matrix.os }}
+      - name: Run Tests on ${{ matrix.browser }} in ${{ matrix.screen-type }}
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dos=${{ matrix.os }} -DscreenType=${{ matrix.screen-type }} -DADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }} -DADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
 
       # Upload test report
-      - name: Update Test Report (${{ matrix.browser }})
+      - name: Upload Test Report (${{ matrix.browser }}, ${{ matrix.screen-type }})
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ExtentReports-${{ matrix.browser }}
+          name: ExtentReports-${{ matrix.browser }}-${{ matrix.screen-type }}
           path: ./ExtentReports/
           if-no-files-found: warn

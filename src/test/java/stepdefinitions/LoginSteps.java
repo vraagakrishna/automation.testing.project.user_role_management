@@ -69,6 +69,10 @@ public class LoginSteps extends BaseSteps {
         loginPage.verifyErrorMessage("Invalid credentials. Please try again.");
     }
 
+    @Then("I should be redirected to the login page")
+    public void validateLoginRequiredPage() {
+        loginPage.verifyLoginRequired();
+    }
     // </editor-fold>
 
 }

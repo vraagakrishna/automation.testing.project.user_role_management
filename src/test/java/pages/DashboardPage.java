@@ -2,15 +2,20 @@ package pages;
 
 import io.cucumber.java.Scenario;
 import model.User;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import utils.DriverManager;
+import utils.JwtUtils;
 import utils.LoggerManager;
 import utils.UserTestData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,15 +28,6 @@ public class DashboardPage extends BasePage {
             "//*[@id='app-main-content']//*[self::h2 and contains(., 'Welcome back')]");
 
     private final By dashboardSection = By.xpath("//section[@class='dashboard-section']/div/p");
-
-    private final By profileBtn = By.xpath("//button[contains(@class, 'user-pill')]");
-
-    private final By adminPanelBtn = By.xpath(
-            "//button[contains(@class, 'nav-dropdown-item') and contains(., 'Admin Panel')]");
-
-    private final By approvalsNavBtn = By.xpath("//nav//button[contains(., 'Approvals')]");
-
-    private final By usersNavBtn = By.xpath("//nav//button[contains(text(), 'Users')]");
 
     private final By groupDropdown = By.xpath(
             "//div[contains(@class, 'admin-main-content')]//select[./option[contains(text(), 'All Groups')]]");
@@ -53,11 +49,7 @@ public class DashboardPage extends BasePage {
 
     private final By deleteButton = By.xpath("//td[7]//button[2]");
 
-    private final By backToWebsiteBtn = By.xpath(
-            "//div[contains(@class, 'admin-sidebar-footer')]//button[contains(., 'Back to Website')]");
-
-    private final By logoutBtn = By.xpath(
-            "//button[contains(@class, 'nav-dropdown-item') and contains(., 'Logout')]");
+    private final By statusChangeButton = By.xpath("//td[5]//button");
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
@@ -76,7 +68,9 @@ public class DashboardPage extends BasePage {
     public boolean validateNonUserDashboardIsDisplayed() {
         String expectedHeading = "Here's who's working today";
         WebElement element = this.getElement(dashboardSection);
-        Assert.assertEquals(element.getText(), expectedHeading, "Non User Dashboard is not displayed");
+        softAssert.assertEquals(element.getText(), expectedHeading, "Non User Dashboard is not displayed");
+
+        screenshotUtils.captureAndAttach(driver, scenario, "Non User Dashboard is displayed");
 
         return true;
     }
@@ -84,7 +78,9 @@ public class DashboardPage extends BasePage {
     public void validateUserDashboardIsDisplayed() {
         String expectedHeading = "Here's an overview of your learning journey";
         WebElement element = this.getElement(dashboardSection);
-        Assert.assertEquals(element.getText(), expectedHeading, "User Dashboard is not displayed");
+        softAssert.assertEquals(element.getText(), expectedHeading, "User Dashboard is not displayed");
+
+        screenshotUtils.captureAndAttach(driver, scenario, "User Dashboard is displayed");
     }
 
     public void approveUser(User<Object> user) {
@@ -102,11 +98,7 @@ public class DashboardPage extends BasePage {
 
         this.verifyApprovalSuccessMsg();
 
-        screenshotUtils.captureAndAttach(
-                DriverManager.getDriver(),
-                scenario,
-                "User is approved"
-        );
+        screenshotUtils.captureAndAttach(driver, scenario, "User is approved");
 
         this.clickBackToWebsiteBtn();
     }
@@ -121,26 +113,159 @@ public class DashboardPage extends BasePage {
         this.openUserManagementAndPerformAction(user, this::deleteUser);
     }
 
-    public void logout() {
-        this.clickButton(profileBtn);
-        this.clickButton(logoutBtn);
+    public void deactivateUser(User<Object> user) {
+        this.openUserManagementAndPerformAction(user, this::deactivateUser);
+    }
 
-        this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect("Are you sure you want to logout?", true);
+    public void logout() {
+        logger.info("Logging out...");
+        this.navigation.logout();
+
+        this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect(
+                "Are you sure you want to logout?",
+                true
+        );
+    }
+
+    public void refreshPage() {
+        logger.info("Refreshing the page...");
+
+        driver.navigate()
+              .refresh();
+    }
+
+    public void validateUserLoggedIn() {
+        logger.info("Checking if token exists in local storage");
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Token from localStorage: " + token);
+
+        logger.info("Token from localStorage " + token);
+        JwtUtils.decodeJwt(token);
+
+        UserTestData.user.setToken(token);
+
+        Assert.assertNotNull(token, "Auth token is not present");
+    }
+
+    public void manipulateTokenRole(String userRole) {
+        String newToken = JwtUtils.manipulateJwtRole(
+                UserTestData.user.getToken(),
+                userRole
+        );
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Modified token from localStorage: " + token);
+
+        logger.info("Modified token from localStorage " + token);
+    }
+
+    public void manipulateUserRole(String userRole) {
+        String user = javascriptExecutorUtils.getLocalStorageItem("user");
+        JSONObject jsonUser;
+
+        try {
+            JSONParser parser = new JSONParser();
+            jsonUser = (JSONObject) parser.parse(user);
+            System.out.println("Original user: " + user);
+        } catch (ParseException e) {
+            throw new RuntimeException("Failed to parse JSON payload: " + e.getMessage());
+        }
+
+        // manipulate usr role
+        jsonUser.put("role", userRole.toLowerCase());
+
+        javascriptExecutorUtils.setLocalStorageItem("user", jsonUser.toJSONString());
+
+        String modifiedUser = javascriptExecutorUtils.getLocalStorageItem("user");
+        logger.info("Modified user " + modifiedUser);
+    }
+
+    public void openAdminPanel() {
+        logger.info("Opening Admin Panel");
+        this.navigation.openAdminPanel();
+    }
+
+    public void expireToken() {
+        String newToken = JwtUtils.expireToken(UserTestData.user.getToken());
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Expired token from localStorage: " + token);
+
+        logger.info("Expired token from localStorage " + token);
+    }
+
+    public void setInvalidToken() {
+        String newToken = (String) UserTestData.user.getFirstName();
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Invalid token from localStorage: " + token);
+
+        logger.info("Invalid token from localStorage " + token);
+    }
+
+    public void removeTokenSignature() {
+        String newToken = JwtUtils.removeSignature(UserTestData.user.getToken());
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("No signature token from localStorage: " + token);
+
+        logger.info("No signature token from localStorage " + token);
+    }
+
+    public void manipulateTokenAlgorithm(String newAlgo) {
+        String newToken = JwtUtils.manipulateTokenAlgorithm(
+                UserTestData.user.getToken(),
+                newAlgo
+        );
+
+        javascriptExecutorUtils.setLocalStorageItem("authToken", newToken);
+
+        String token = javascriptExecutorUtils.getLocalStorageItem("authToken");
+        LoggerManager.logToReport("Modified token algorithm: " + token);
+
+        logger.info("Modified token algorithm " + token);
+    }
+
+    public void openNewBrowser() {
+        String tab1 = driver.getWindowHandle();
+
+        String currentUrl = driver.getCurrentUrl();
+
+        driver.switchTo()
+              .newWindow(WindowType.TAB);
+        driver.get(currentUrl);
+
+        driver.switchTo()
+              .window(tab1);
+    }
+
+    public void switchToTab(int tabNumber) {
+        // Store all window handles
+        List<String> tabs = new ArrayList<>(driver.getWindowHandles());
+
+        // Switch to second tab (index 1)
+        driver.switchTo()
+              .window(tabs.get(tabNumber - 1));
     }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">
-    private void openAdminPanel() {
-        this.clickButton(profileBtn);
-        this.clickButton(adminPanelBtn);
-    }
-
     private void openApprovalsPage() {
-        this.clickButton(approvalsNavBtn);
+        logger.info("Opening Approvals page");
+        this.navigation.openApprovalsPage();
     }
 
     private void openUsersPage() {
-        this.clickButton(usersNavBtn);
+        logger.info("Opening Users page");
+        this.navigation.openUsersPage();
     }
 
     private void selectGroup(Object group) {
@@ -177,7 +302,8 @@ public class DashboardPage extends BasePage {
     }
 
     private void clickBackToWebsiteBtn() {
-        this.clickButton(backToWebsiteBtn);
+        logger.info("Going back to Website");
+        this.navigation.clickBackToWebsiteBtn();
     }
 
     private void openUserManagementAndPerformAction(User<Object> user, Runnable action) {
@@ -223,6 +349,17 @@ public class DashboardPage extends BasePage {
         );
 
         this.alertUtils.verifyIfAlertMessageIsCorrect("User deleted successfully!");
+    }
+
+    private void deactivateUser() {
+        this.clickButton(statusChangeButton);
+
+        this.alertUtils.verifyIfConfirmationAlertMessageIsCorrect(
+                "Are you sure you want to deactivate this user?",
+                true
+        );
+
+        this.alertUtils.verifyIfAlertMessageIsCorrect("User deactivated successfully!");
     }
     // </editor-fold>
 

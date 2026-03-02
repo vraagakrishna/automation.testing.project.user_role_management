@@ -3,10 +3,12 @@ package hooks;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.testng.asserts.SoftAssert;
 import pages.RegisterPage;
 import utils.DriverManager;
 import utils.LoggerManager;
 import utils.ScreenshotUtils;
+import utils.SoftAssertManager;
 
 import java.util.logging.Logger;
 
@@ -32,6 +34,17 @@ public class Hooks {
 
     @After("@ui")
     public void afterStep(Scenario scenario) {
+        SoftAssert softAssert = SoftAssertManager.getSoftAssert();
+        AssertionError softAssertionError = null;
+
+        try {
+            softAssert.assertAll();  // will throw if any soft assertions failed
+        } catch (AssertionError ex) {
+            softAssertionError = ex;
+        } finally {
+            SoftAssertManager.remove();  // clean up thread-local
+        }
+
         if (scenario.getName() == null || scenario.getName()
                                                   .isEmpty())
             return;
@@ -57,6 +70,10 @@ public class Hooks {
         logger.info("-------------------------------------");
 
         DriverManager.quitDriver();
+
+        // fail scenario if any soft assertions failed
+        if (softAssertionError != null)
+            throw softAssertionError;
     }
 
     private String getFeatureName(Scenario scenario) {

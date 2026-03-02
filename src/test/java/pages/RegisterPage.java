@@ -30,8 +30,6 @@ public class RegisterPage extends BasePage {
     private final By groupField = By.id("register-group");
 
     private final By registerButton = By.id("register-submit");
-
-    private final By loginButton = By.id("login-toggle");
     // </editor-fold>
 
     // <editor-fold desc="Ctor">

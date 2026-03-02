@@ -6,6 +6,10 @@ public class ConfigManager {
         return System.getProperty("browser", "chrome");
     }
 
+    public static String getScreenType() {
+        return System.getProperty("screenType", "desktop");
+    }
+
     public static boolean isHeadless() {
         return Boolean.parseBoolean(
                 System.getProperty("headless", "true")

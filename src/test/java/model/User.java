@@ -14,6 +14,8 @@ public class User<T> {
     private T confirmPassword;
 
     private T group;
+
+    private String token;
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
@@ -24,7 +26,6 @@ public class User<T> {
         this.email = email;
         this.password = password;
     }
-
     // </editor-fold>
 
     // <editor-fold desc="Getters and Setters">
@@ -74,6 +75,14 @@ public class User<T> {
 
     public void setGroup(T group) {
         this.group = group;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
     // </editor-fold>
 

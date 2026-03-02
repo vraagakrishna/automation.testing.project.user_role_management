@@ -25,6 +25,8 @@ public class LoginPage extends BasePage {
     private final By loginButton = By.id("login-submit");
 
     private final By registerButton = By.id("signup-toggle");
+
+    private final By loginRequiredBtn = By.xpath("//button[contains(., 'Go to Login')]");
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
@@ -68,6 +70,10 @@ public class LoginPage extends BasePage {
 
     public void verifyErrorMessage(String expectedMessage) {
         this.alertUtils.verifyIfAlertMessageIsCorrect(expectedMessage);
+    }
+
+    public void verifyLoginRequired() {
+        Assert.assertTrue(isElementVisible(loginRequiredBtn), "Login required button is not displayed");
     }
     // </editor-fold>
 

@@ -1,7 +1,7 @@
 Feature: End-to-end User Role Management
   As a system administrator
-  I want to promote users to admin role
-  So that they can manage the system
+  I want to promote and manage users
+  So that system access is controlled properly
   
   Background:
     Given I am on the login page
@@ -14,11 +14,13 @@ Feature: End-to-end User Role Management
     When I attempt to login with the user
     Then I should see the Dashboard
     And the user role should be "User"
+    And I logout as the user
     
     When the admin changes the user's role to "Admin"
     And I login as the new user
     Then I should see the Dashboard
     And the user role should be "Admin"
+    And I logout as the user
     
     When the admin deletes the user
     And I attempt to login with the user

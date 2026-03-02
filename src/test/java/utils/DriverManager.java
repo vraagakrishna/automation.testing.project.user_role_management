@@ -18,10 +18,21 @@ public class DriverManager {
     public static void initDriver(Scenario _scenario) {
         driver = new BrowserFactory().startBrowser(
                 ConfigManager.getBrowser(),
+                ConfigManager.getScreenType(),
                 ConfigManager.isHeadless(),
                 WEBSITE_URL
         );
         scenario = _scenario;
+    }
+
+    public static Object[] createTempDriver() {
+        WebDriver tempDriver = new BrowserFactory().startBrowser(
+                ConfigManager.getBrowser(),
+                ConfigManager.getScreenType(),
+                ConfigManager.isHeadless(),
+                WEBSITE_URL
+        );
+        return new Object[]{tempDriver, scenario};
     }
 
     public static WebDriver getDriver() {
@@ -35,6 +46,11 @@ public class DriverManager {
     public static void quitDriver() {
         if (driver != null)
             driver.quit();
+    }
+
+    public static void quitDriver(WebDriver tempDriver) {
+        if (tempDriver != null)
+            tempDriver.quit();
     }
     // </editor-fold>
 

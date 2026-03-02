@@ -109,7 +109,8 @@ Key points:
 src
 └── test
     ├── java
-    │   ├── factory             # Browser creation & WebDriver configuration
+    │   ├── driver              # Browser abstraction layer 
+    │   ├── factory             # High-level factory (BrowserFactory)
     │   ├── hooks               # Cucumber @Before/@After lifecycle management
     │   ├── model               # Test data/domain models (e.g., User objects)
     │   ├── pages               # Page Object Model classes (UI interactions & locators)
@@ -135,13 +136,13 @@ pom.xml
 
 ```bash
 git clone https://github.com/vraagakrishna/automation.testing.project.user_role_management.git
-cd automation.testing.project.user_role_management.git 
+cd automation.testing.project.user_role_management 
 ```
 
 2. Build the project:
 
 ```bash
-mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true
+mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true -DscreenType=SCREEN_TYPE -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
 
 <br/>
@@ -162,7 +163,7 @@ mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true
 
 ## CI/CD Pipelines
 
-This project is designed to run locally and in Ci environments.
+This project is designed to run locally and in CI environments.
 
 ### Pipeline Objectives
 
@@ -170,6 +171,7 @@ This project is designed to run locally and in Ci environments.
 * Generate Extent HTML reports
 * Capture logs and screenshots
 * Support cross-browser execution via system properties
+* Support responsive UI validation (desktop / tablet / mobile)
 * Allow headless executive for CI environments
 
 ### Running Tests in CI
@@ -177,16 +179,50 @@ This project is designed to run locally and in Ci environments.
 Tests can be triggered using Maven with system properties:
 
 ```bash
-mvn clean test -Dbrowser=chrome -Dheadless=true
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=desktop -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
 
 Supported runtime parameters:
 
-| Parameter | Description                  | Default   |
-|:----------|:-----------------------------|:----------|
-| browser   | Browser to execute tests on  | chrome    |
-| headless  | Run browser in headless mode | true      | 
-| os        | Operating system override    | System OS | 
+| Parameter  | Description                           | Default   |
+|:-----------|:--------------------------------------|:----------|
+| browser    | Browser to execute tests on           | chrome    |
+| headless   | Run browser in headless mode          | true      | 
+| os         | Operating system override             | System OS | 
+| screenType | Screen size for responsive UI testing | desktop   | 
+
+### Screen Size Options
+
+The framework supports responsive layout validations by adjusting browser window size at runtime.
+
+| screenType | Resolution (Width x Height) | Description                  |
+|:-----------|:----------------------------|:-----------------------------| 
+| desktop    | 1920 x 1080                 | Standard laptop/desktop view | 
+| tablet     | 768 x 1024                  | Tablet portrait layout       |
+| mobile     | 375 x 182                   | Mobile phone layout          |
+
+Screen size is controlled via the `screenType` system property and is automatically handled by the `DriverManager`
+and `NavigationFactory`.
+
+### Example Executions
+
+Desktop (default):
+
+```bash
+mvn clean test -Dbrowser=chrome -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
+```
+
+Mobile (headless):
+
+```bash
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=mobile -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
+```
+
+Cross-browser + mobile:
+
+```bash
+mvn clean test -Dbrowser=firefox -DscreenType=mobile -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
+```
 
 ### Report Artifacts
 
