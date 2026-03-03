@@ -52,7 +52,7 @@ public class LoggerManager {
     }
 
     public static void logToReport(String message) {
-        ExtentCucumberAdapter.addTestStepLog(message);
+        ExtentCucumberAdapter.addTestStepLog(">>> " + message);
     }
     // </editor-fold>
 
