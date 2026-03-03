@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import utils.LoggerManager;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class RegisterPage extends BasePage {
@@ -100,7 +101,25 @@ public class RegisterPage extends BasePage {
 
     private void selectGroup(int groupIndex) {
         WebElement element = this.waitForDropdownToHaveOptions(groupField);
-        new Select(element).selectByIndex(groupIndex);
+
+        Select select = new Select(element);
+
+        if (groupIndex > 0) {
+            List<WebElement> options = select.getOptions();
+
+            for (int i = 0; i < options.size(); i++) {
+                String text = options.get(i)
+                                     .getText();
+
+                if (text != null && text.toLowerCase()
+                                        .contains("group 5 assignment")) {
+                    groupIndex = i;  // override with found index
+                    break;           // stop searching once found
+                }
+            }
+        }
+
+        select.selectByIndex(groupIndex);
     }
 
     private String getSelectedGroup() {
