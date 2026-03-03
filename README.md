@@ -7,7 +7,7 @@
 * [Tech Stack](#tech-stack)
 * [Project Structure](#project-structure)
 * [Setup / Installation](#setup--installation)
-* [Setup in IntelliJ IDEA (Optional)](#setup-in-intellij-idea--optional-)
+* [Setup in IntelliJ IDEA](#setup-in-intellij-idea)
 * [CI/CD Pipelines](#cicd-pipelines)
 
 <br/>
@@ -147,7 +147,7 @@ mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true -DscreenType=SCREEN_TYPE -
 
 <br/>
 
-## Setup in IntelliJ IDEA (Optional)
+## Setup in IntelliJ IDEA
 
 1. Import the project
 
@@ -230,7 +230,7 @@ After execution, the following artifacts are generated:
 
 * `reports/ExtentReport.html` -> Test execution report
 * `/screenshots/` -> Failure or additional screenshots
-* Logs -> Stored via LoggerManager
+* `execution.log` -> Stored via LoggerManager
 
 These artifacts should be archived in the CI pipeline for traceability.
 
