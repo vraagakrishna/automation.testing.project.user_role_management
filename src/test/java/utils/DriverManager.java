@@ -4,11 +4,11 @@ import factory.BrowserFactory;
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriver;
 
+import static common.Constants.DEV_URL;
+
 public class DriverManager {
 
     // <editor-fold desc="Class Fields / Constants">
-    public static final String WEBSITE_URL = "https://ndosisimplifiedautomation.vercel.app/";
-
     private static WebDriver driver;
 
     private static Scenario scenario;
@@ -20,7 +20,7 @@ public class DriverManager {
                 ConfigManager.getBrowser(),
                 ConfigManager.getScreenType(),
                 ConfigManager.isHeadless(),
-                WEBSITE_URL
+                DEV_URL
         );
         scenario = _scenario;
     }
@@ -30,7 +30,7 @@ public class DriverManager {
                 ConfigManager.getBrowser(),
                 ConfigManager.getScreenType(),
                 ConfigManager.isHeadless(),
-                WEBSITE_URL
+                DEV_URL
         );
         return new Object[]{tempDriver, scenario};
     }
