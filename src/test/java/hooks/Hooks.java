@@ -14,20 +14,14 @@ import java.util.logging.Logger;
 
 public class Hooks {
 
+    // <editor-fold desc="Class Fields / Constants">
     private static final Logger logger = LoggerManager.getLogger(RegisterPage.class.getName());
+    // </editor-fold>
 
+    // <editor-fold desc="Public Methods">
     @Before("@ui")
     public void setUp(Scenario scenario) {
-        String scenarioName = scenario.getName();
-
-        if (scenarioName == null || scenarioName.isEmpty())
-            return;
-
-        logger.info("========================================");
-        logger.info(">> Feature : " + getFeatureName(scenario));
-        logger.info(">> Scenario: " + scenarioName);
-        logger.info(">> Tags    : " + scenario.getSourceTagNames());
-        logger.info("========================================");
+        this.logBeforeScenario(scenario);
 
         DriverManager.initDriver(scenario);
     }
@@ -75,7 +69,9 @@ public class Hooks {
         if (softAssertionError != null)
             throw softAssertionError;
     }
+    // </editor-fold>
 
+    // <editor-fold desc="Private Methods">
     private String getFeatureName(Scenario scenario) {
         String uri = scenario.getUri()
                              .toString();
@@ -85,5 +81,19 @@ public class Hooks {
     private String getErrorMessage(Scenario scenario) {
         return scenario.isFailed() ? "See stacktrace in report." : "";
     }
+
+    private void logBeforeScenario(Scenario scenario) {
+        String scenarioName = scenario.getName();
+
+        if (scenarioName == null || scenarioName.isEmpty())
+            return;
+
+        logger.info("========================================");
+        logger.info(">> Feature : " + getFeatureName(scenario));
+        logger.info(">> Scenario: " + scenarioName);
+        logger.info(">> Tags    : " + scenario.getSourceTagNames());
+        logger.info("========================================");
+    }
+    // </editor-fold>
 
 }
