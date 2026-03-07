@@ -101,6 +101,19 @@ public class RegisterSteps extends BaseSteps {
 
         validateSuccessfulRegistration();
     }
+
+    @When("a newly registered user exists with real email")
+    public void registerRealNewUser() throws Exception {
+        loginPage.clickRegisterButton();
+
+        registerPage.verifyRegisterPageIsDisplayed();
+
+        getRealUserData();
+
+        registerPage.registerUser(UserTestData.user);
+
+        validateSuccessfulRegistration();
+    }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">
@@ -111,6 +124,22 @@ public class RegisterSteps extends BaseSteps {
         loginPage.verifyLoginPageIsDisplayed();
 
         loginPage.validateEmailAddress(UserTestData.user.getEmail());
+    }
+
+    public void getRealUserData() throws Exception {
+        User<Object> user = new User<>();
+        UserTestData testData = new UserTestData();
+
+        //testData.generateRealEmail();  // TODO: uncomment afterwards
+
+        user.setFirstName(testData.getFirstName());
+        user.setLastName(testData.getLastName());
+        user.setEmail(testData.getRealEmail());
+        user.setPassword(testData.getPassword());
+        user.setConfirmPassword(testData.getPassword());
+        user.setGroup(1);
+
+        testData.setUser(user);
     }
     // </editor-fold>
 

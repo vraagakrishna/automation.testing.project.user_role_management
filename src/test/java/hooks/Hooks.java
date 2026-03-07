@@ -3,12 +3,10 @@ package hooks;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.testng.SkipException;
 import org.testng.asserts.SoftAssert;
 import pages.RegisterPage;
-import utils.DriverManager;
-import utils.LoggerManager;
-import utils.ScreenshotUtils;
-import utils.SoftAssertManager;
+import utils.*;
 
 import java.util.logging.Logger;
 
@@ -26,7 +24,26 @@ public class Hooks {
         DriverManager.initDriver(scenario);
     }
 
-    @After("@ui")
+    @Before("@email")
+    public void setUpEmailTests(Scenario scenario) {
+        this.logBeforeScenario(scenario);
+
+        String browser = ConfigManager.getBrowser();
+        String screen = ConfigManager.getScreenType();
+
+        boolean allowed = ("chrome".equals(browser) && "desktop".equals(screen)) ||
+                ("chrome".equals(browser) && "mobile".equals(screen));
+
+        if (!allowed) {
+            String skipMsg = "Skipping email test for " + browser + " + " + screen;
+            logger.info(skipMsg);
+            throw new SkipException(skipMsg);
+        }
+
+        DriverManager.initDriver(scenario);
+    }
+
+    @After("@ui or @email")
     public void afterStep(Scenario scenario) {
         SoftAssert softAssert = SoftAssertManager.getSoftAssert();
         AssertionError softAssertionError = null;
@@ -46,19 +63,31 @@ public class Hooks {
         logger.info("---------- Scenario Result ----------");
         logger.info(">> Scenario: " + scenario.getName());
 
-        if (scenario.isFailed()) {
-            logger.info(">> Status  : FAILED");
-            logger.info(">> Error(s):");
-            logger.info(getErrorMessage(scenario));
+        switch (scenario.getStatus()) {
+            case FAILED:
+                logger.info(">> Status  : FAILED");
+                logger.info(">> Error(s):");
+                logger.info(getErrorMessage(scenario));
 
-            ScreenshotUtils screenshotUtils = new ScreenshotUtils();
-            screenshotUtils.captureAndAttach(
-                    DriverManager.getDriver(),
-                    scenario,
-                    "Failed test - " + scenario.getName()
-            );
-        } else {
-            logger.info(">> Status  : PASSED");
+                ScreenshotUtils screenshotUtils = new ScreenshotUtils();
+                screenshotUtils.captureAndAttach(
+                        DriverManager.getDriver(),
+                        scenario,
+                        "Failed test - " + scenario.getName()
+                );
+                break;
+
+            case PASSED:
+                logger.info(">> Status  : PASSED");
+                break;
+
+            case SKIPPED:
+                logger.info(">> Status  : SKIPPED");
+                break;
+
+            default:
+                logger.info(">> Status  : UNKNOWN");
+                break;
         }
 
         logger.info("-------------------------------------");
@@ -68,6 +97,12 @@ public class Hooks {
         // fail scenario if any soft assertions failed
         if (softAssertionError != null)
             throw softAssertionError;
+    }
+
+    @After("@email")
+    public void afterEmailTests() {
+        if (UserTestData.inbox != null)
+            UserTestData.emailService.deleteInbox(UserTestData.inbox.getId());
     }
     // </editor-fold>
 
