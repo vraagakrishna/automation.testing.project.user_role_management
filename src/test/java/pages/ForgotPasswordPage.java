@@ -122,6 +122,18 @@ public class ForgotPasswordPage extends BasePage {
     public void validateResetLinkFailed() {
         WebElement element = this.getElement(failedResetLinkMsg);
         Assert.assertNotNull(element, "Invalid or Expired Reset message is not displayed");
+
+        screenshotUtils.captureAndAttach(driver, scenario, "Reset Link Failed");
+
+        // close the tab
+        driver.close();
+
+        // switch to any remaining tab
+        for (String handle : driver.getWindowHandles()) {
+            driver.switchTo()
+                  .window(handle);
+            break;
+        }
     }
     // </editor-fold>
 
