@@ -1,10 +1,6 @@
 package runner;
 
-import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import org.testng.annotations.BeforeSuite;
-import utils.ConfigManager;
-import utils.LoggerManager;
 
 @CucumberOptions(
         features = "src/test/resources/features",
@@ -17,16 +13,6 @@ import utils.LoggerManager;
         },
         tags = "@ui"
 )
-public class UiTestRunner extends AbstractTestNGCucumberTests {
-
-    @BeforeSuite
-    public void beforeSuite() {
-        // Set system properties using ConfigManager defaults if not already set
-        System.setProperty("systeminfo.browser", ConfigManager.getBrowser());
-        System.setProperty("systeminfo.os", ConfigManager.getOS());
-        System.setProperty("systeminfo.screenType", ConfigManager.getScreenType());
-
-        LoggerManager.initializeFileLogging();
-    }
+public class UiTestRunner extends BaseTestRunner {
 
 }
