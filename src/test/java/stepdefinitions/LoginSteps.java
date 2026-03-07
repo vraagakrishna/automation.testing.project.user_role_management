@@ -43,7 +43,7 @@ public class LoginSteps extends BaseSteps {
 
         testData.setUser(user);
 
-        loginPage.loginUser(user);
+        loginPage.loginUser(user.getEmail(), user.getPassword());
     }
 
     @Then("I should see a login error message {string}")
@@ -61,7 +61,7 @@ public class LoginSteps extends BaseSteps {
             homePage.clickLogin();
             loginPage.verifyLoginPageIsDisplayed();
         }
-        loginPage.loginUser(UserTestData.user);
+        loginPage.loginUser(UserTestData.user.getEmail(), UserTestData.user.getPassword());
     }
 
     @Then("login should fail")

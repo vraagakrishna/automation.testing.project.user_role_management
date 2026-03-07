@@ -1,7 +1,6 @@
 package pages;
 
 import io.cucumber.java.Scenario;
-import model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -57,13 +56,13 @@ public class LoginPage extends BasePage {
         Assert.assertEquals(heading, expectedEmailAddress, "Email address does not match");
     }
 
-    public void loginUser(User<Object> user) {
-        logger.info("Login user User{email=" + user.getEmail() + ",password=" + user.getPassword() + "}");
-        LoggerManager.logToReport("Login user User{email=" + user.getEmail() + ",password=" + user.getPassword() + "}");
+    public void loginUser(Object email, Object password) {
+        logger.info("Login user User{email=" + email + ",password=" + password + "}");
+        LoggerManager.logToReport("Login user User{email=" + email + ",password=" + password + "}");
         this.clearLoginForm();
 
-        this.enterEmailAddress(user.getEmail());
-        this.enterPassword(user.getPassword());
+        this.enterEmailAddress(email);
+        this.enterPassword(password);
 
         this.clickLoginButton();
     }
