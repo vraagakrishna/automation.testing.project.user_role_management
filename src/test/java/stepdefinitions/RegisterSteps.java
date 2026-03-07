@@ -136,7 +136,7 @@ public class RegisterSteps extends BaseSteps {
         User<Object> user = new User<>();
         UserTestData testData = new UserTestData();
 
-        testData.generateRealEmail();  // TODO: uncomment afterwards
+        testData.generateRealEmail();
 
         String email = testData.getRealEmail();
         if (email == null) {
