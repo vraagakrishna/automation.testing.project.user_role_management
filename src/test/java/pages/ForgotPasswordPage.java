@@ -127,13 +127,6 @@ public class ForgotPasswordPage extends BasePage {
 
         // close the tab
         driver.close();
-
-        // switch to any remaining tab
-        for (String handle : driver.getWindowHandles()) {
-            driver.switchTo()
-                  .window(handle);
-            break;
-        }
     }
     // </editor-fold>
 
