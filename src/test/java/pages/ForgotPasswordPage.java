@@ -9,6 +9,8 @@ import org.testng.Assert;
 import utils.LoggerManager;
 import utils.UserTestData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static common.Constants.DEV_URL;
@@ -127,6 +129,11 @@ public class ForgotPasswordPage extends BasePage {
 
         // close the tab
         driver.close();
+
+        // switch to any remaining tab
+        List<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo()
+              .window(tabs.get(tabs.size() - 1));
     }
     // </editor-fold>
 
