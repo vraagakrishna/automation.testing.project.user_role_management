@@ -1,14 +1,19 @@
 package utils;
 
 import com.github.javafaker.Faker;
+import com.mailslurp.models.InboxDto;
 import model.User;
+import services.MailSlurpEmailService;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 
 public class UserTestData {
 
-    // <editor-fold desc="Class Fields">
+    // <editor-fold desc="Class Fields / Constants">
+    private static final Logger logger = LoggerManager.getLogger(UserTestData.class.getName());
+
     private static final Faker faker = new Faker();
 
     private static final List<String> DOMAINS = List.of(
@@ -17,8 +22,15 @@ public class UserTestData {
 
     public static User<Object> user;
 
+    public static String resetLink;
+
+    public static MailSlurpEmailService emailService;
+
+    public static InboxDto inbox;
+
     public String weakPassword = faker.internet()
                                       .password(1, 5, true, true, true);
+
     private String password = generateFakePassword();
 
     private String firstName = generateFakeFirstName();
@@ -26,6 +38,13 @@ public class UserTestData {
     private String lastName = generateFakeLastName();
 
     private String email = generateFakeEmail();
+
+    private String realEmail;
+    // </editor-fold>
+
+    // <editor-fold desc="Ctor">
+    public UserTestData() {
+    }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">
@@ -50,11 +69,40 @@ public class UserTestData {
     public String getEmail() {
         return email;
     }
+
+    public String getRealEmail() {
+        return realEmail;
+    }
+
+    public void setRealEmail(String realEmail) {
+        this.realEmail = realEmail;
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="Public Methods">
     public void setUser(User<Object> user) {
         this.user = user;
+    }
+
+    public void setResetLink(String resetLink) {
+        this.resetLink = resetLink;
+    }
+
+    public void generateRealEmail() throws Exception {
+        emailService = new MailSlurpEmailService(ConfigManager.getMailSlurpApiKey());
+        inbox = emailService.createInbox();
+
+        if (inbox == null)
+            return;
+
+        logger.info("Generated Email: " + inbox.getEmailAddress());
+        logger.info("Associated Inbox ID: " + inbox.getId());
+        realEmail = inbox.getEmailAddress();
+    }
+
+    public void generateNewPassword() {
+        password = generateFakePassword();
     }
     // </editor-fold>
 

@@ -2,10 +2,7 @@ package stepdefinitions;
 
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.WebDriver;
-import pages.DashboardPage;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.RegisterPage;
+import pages.*;
 import utils.DriverManager;
 
 public class BaseSteps {
@@ -18,6 +15,8 @@ public class BaseSteps {
     protected final LoginPage loginPage;
 
     protected final DashboardPage dashboardPage;
+
+    protected final ForgotPasswordPage forgotPasswordPage;
     // </editor-fold>
 
     // <editor-fold desc="Ctor">
@@ -28,6 +27,7 @@ public class BaseSteps {
         this.registerPage = new RegisterPage(driver, scenario);
         this.loginPage = new LoginPage(driver, scenario);
         this.dashboardPage = new DashboardPage(driver, scenario);
+        this.forgotPasswordPage = new ForgotPasswordPage(driver, scenario);
     }
     // </editor-fold>
 

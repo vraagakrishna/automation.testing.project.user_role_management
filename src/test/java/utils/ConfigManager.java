@@ -20,4 +20,8 @@ public class ConfigManager {
         return System.getProperty("os", System.getProperty("os.name"));
     }
 
+    public static String getMailSlurpApiKey() {
+        return System.getProperty("MAIL_SLURP_API_KEY", System.getenv("MAIL_SLURP_API_KEY"));
+    }
+
 }

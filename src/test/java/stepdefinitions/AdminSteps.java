@@ -80,7 +80,7 @@ public class AdminSteps extends BaseSteps {
 
             adminLoginPage.verifyLoginPageIsDisplayed();
 
-            adminLoginPage.loginUser(adminUser);
+            adminLoginPage.loginUser(adminUser.getEmail(), adminUser.getPassword());
 
             adminDashboardPage.validateNonUserDashboardIsDisplayed();
 

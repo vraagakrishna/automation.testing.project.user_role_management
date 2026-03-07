@@ -9,6 +9,8 @@ public class User<T> {
 
     private T email;
 
+    private T oldPassword;
+
     private T password;
 
     private T confirmPassword;
@@ -53,6 +55,14 @@ public class User<T> {
         this.email = email;
     }
 
+    public T getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(T oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
     public T getPassword() {
         return password;
     }
@@ -93,6 +103,7 @@ public class User<T> {
                 "firstName=" + firstName +
                 ", lastName=" + lastName +
                 ", email=" + email +
+                ", oldPassword=" + oldPassword +
                 ", password=" + password +
                 ", confirmPassword=" + confirmPassword +
                 ", group=" + group +

@@ -5,12 +5,18 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.User;
+import utils.LoggerManager;
 import utils.UserTestData;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class RegisterSteps extends BaseSteps {
+
+    // <editor-fold desc="Class Fields / Constants">
+    private static final Logger logger = LoggerManager.getLogger(RegisterSteps.class.getName());
+    // </editor-fold>
 
     // <editor-fold desc="Ctor">
     public RegisterSteps() {
@@ -101,6 +107,19 @@ public class RegisterSteps extends BaseSteps {
 
         validateSuccessfulRegistration();
     }
+
+    @When("a newly registered user exists with real email")
+    public void registerRealNewUser() throws Exception {
+        loginPage.clickRegisterButton();
+
+        registerPage.verifyRegisterPageIsDisplayed();
+
+        getRealUserData();
+
+        registerPage.registerUser(UserTestData.user);
+
+        validateSuccessfulRegistration();
+    }
     // </editor-fold>
 
     // <editor-fold desc="Private Methods">
@@ -111,6 +130,29 @@ public class RegisterSteps extends BaseSteps {
         loginPage.verifyLoginPageIsDisplayed();
 
         loginPage.validateEmailAddress(UserTestData.user.getEmail());
+    }
+
+    public void getRealUserData() throws Exception {
+        User<Object> user = new User<>();
+        UserTestData testData = new UserTestData();
+
+        testData.generateRealEmail();
+
+        String email = testData.getRealEmail();
+        if (email == null) {
+            logger.info("Real email not found; defaulting to normal email");
+            LoggerManager.logToReport("Real email not found; defaulting to normal email");
+            email = testData.getEmail();
+        }
+
+        user.setFirstName(testData.getFirstName());
+        user.setLastName(testData.getLastName());
+        user.setEmail(email);
+        user.setPassword(testData.getPassword());
+        user.setConfirmPassword(testData.getPassword());
+        user.setGroup(1);
+
+        testData.setUser(user);
     }
     // </editor-fold>
 

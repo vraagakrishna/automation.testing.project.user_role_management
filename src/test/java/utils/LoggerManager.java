@@ -15,19 +15,19 @@ public class LoggerManager {
 
     // <editor-fold desc="Public Methods">
     public static Logger getLogger(String className) {
-        Logger rootLogger = Logger.getLogger(className);
+        Logger logger = Logger.getLogger(className);
 
         // Only add handlers once
-        if (rootLogger.getHandlers().length == 0) {
+        if (logger.getHandlers().length == 0) {
             ConsoleHandler consoleHandler = new ConsoleHandler();
             consoleHandler.setFormatter(getFormatter());
-            rootLogger.addHandler(consoleHandler);
+            logger.addHandler(consoleHandler);
 
             // Level
-            rootLogger.setLevel(Level.INFO);
+            logger.setLevel(Level.INFO);
         }
 
-        return rootLogger;
+        return logger;
     }
 
     public static void initializeFileLogging() {
@@ -38,11 +38,18 @@ public class LoggerManager {
 
             String logPath = latestReportFolder.getAbsolutePath() + "/execution.log";
 
+            Logger rootLogger = LogManager.getLogManager()
+                                          .getLogger("");
+
+            // Remove default console handler (this causes duplicates)
+            for (Handler handler : rootLogger.getHandlers()) {
+                if (handler instanceof ConsoleHandler)
+                    rootLogger.removeHandler(handler);
+            }
+
             FileHandler fileHandler = new FileHandler(logPath, true);
             fileHandler.setFormatter(getFormatter());
 
-            Logger rootLogger = LogManager.getLogManager()
-                                          .getLogger("");
             rootLogger.addHandler(fileHandler);
 
             isInitialized = true;

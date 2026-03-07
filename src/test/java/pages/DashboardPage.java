@@ -168,7 +168,7 @@ public class DashboardPage extends BasePage {
         try {
             JSONParser parser = new JSONParser();
             jsonUser = (JSONObject) parser.parse(user);
-            System.out.println("Original user: " + user);
+            logger.info("Original user: " + user);
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse JSON payload: " + e.getMessage());
         }

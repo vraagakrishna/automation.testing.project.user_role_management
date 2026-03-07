@@ -61,6 +61,7 @@ public class RegisterPage extends BasePage {
 
         this.clickRegisterButton();
 
+        logger.info("Registered user " + user);
         LoggerManager.logToReport("Registered user " + user);
     }
 

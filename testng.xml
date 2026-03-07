@@ -3,7 +3,8 @@
 <suite name="Cucumber All Test Suite">
     <test verbose="2" preserve-order="true" name="User Role Management">
         <classes>
-            <class name="runner.UiTestRunner"></class>
+            <class name="runner.UiTestRunner"/>
+            <class name="runner.EmailTestRunner"/>
         </classes>
     </test>
 </suite>

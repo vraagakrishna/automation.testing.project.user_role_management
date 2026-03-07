@@ -43,7 +43,7 @@ public class LoginSteps extends BaseSteps {
 
         testData.setUser(user);
 
-        loginPage.loginUser(user);
+        loginPage.loginUser(user.getEmail(), user.getPassword());
     }
 
     @Then("I should see a login error message {string}")
@@ -53,6 +53,7 @@ public class LoginSteps extends BaseSteps {
 
     @When("I attempt to login with the user")
     @And("I login as the new user")
+    @When("I login with the new password")
     public void loginNewUser() {
         try {
             loginPage.verifyLoginPageIsDisplayed();
@@ -61,7 +62,7 @@ public class LoginSteps extends BaseSteps {
             homePage.clickLogin();
             loginPage.verifyLoginPageIsDisplayed();
         }
-        loginPage.loginUser(UserTestData.user);
+        loginPage.loginUser(UserTestData.user.getEmail(), UserTestData.user.getPassword());
     }
 
     @Then("login should fail")
@@ -72,6 +73,19 @@ public class LoginSteps extends BaseSteps {
     @Then("I should be redirected to the login page")
     public void validateLoginRequiredPage() {
         loginPage.verifyLoginRequired();
+    }
+
+    @When("I attempt to login with the old password")
+    public void loginWithOldPassword() {
+        try {
+            loginPage.verifyLoginPageIsDisplayed();
+        } catch (TimeoutException ex) {
+            // if error, then login page is not displayed
+            homePage.clickLogin();
+            loginPage.verifyLoginPageIsDisplayed();
+        }
+
+        loginPage.loginUser(UserTestData.user.getEmail(), UserTestData.user.getOldPassword());
     }
     // </editor-fold>
 

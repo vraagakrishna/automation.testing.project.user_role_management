@@ -15,7 +15,7 @@
 ## Project Overview
 
 This project demonstrates an **end-to-end automated test workflow** using **Cucumber (BDD)** to validate a complete
-**user lifecycle and role elevation process**.
+**user lifecycle and role elevation process** on [Ndosi Test Automation](https://ndosisimplifiedautomation.vercel.app/).
 
 The automation validates:
 
@@ -109,12 +109,14 @@ Key points:
 src
 └── test
     ├── java
+    │   ├── common              # Global constatns and shared configurations
     │   ├── driver              # Browser abstraction layer 
     │   ├── factory             # High-level factory (BrowserFactory)
     │   ├── hooks               # Cucumber @Before/@After lifecycle management
     │   ├── model               # Test data/domain models (e.g., User objects)
     │   ├── pages               # Page Object Model classes (UI interactions & locators)
     │   ├── runner              # Cucumber test runners (entry points, tag filtering)
+    │   ├── services            # External/system services (EmailService, MailSlurpEmailService)
     │   ├── stepdefinitions     # Gherkin step implementations (test logic layer)
     │   └── utils               # Reusable helpers (DriverManager, alerts, test data, etc.)
     │
@@ -142,7 +144,7 @@ cd automation.testing.project.user_role_management
 2. Build the project:
 
 ```bash
-mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true -DscreenType=SCREEN_TYPE -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
+mvn clean test -Dbrowser=BROWSER_NAME -Dheadless=true -DscreenType=SCREEN_TYPE -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD -DMAIL_SLURP_API_KEY=MAIL_SLURP_API_KEY
 ```
 
 <br/>
@@ -174,12 +176,14 @@ This project is designed to run locally and in CI environments.
 * Support responsive UI validation (desktop / tablet / mobile)
 * Allow headless executive for CI environments
 
+<br/>
+
 ### Running Tests in CI
 
 Tests can be triggered using Maven with system properties:
 
 ```bash
-mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=desktop -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=desktop -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD -DMAIL_SLURP_API_KEY=MAIL_SLURP_API_KEY
 ```
 
 Supported runtime parameters:
@@ -190,6 +194,8 @@ Supported runtime parameters:
 | headless   | Run browser in headless mode          | true      | 
 | os         | Operating system override             | System OS | 
 | screenType | Screen size for responsive UI testing | desktop   | 
+
+<br/>
 
 ### Screen Size Options
 
@@ -204,18 +210,77 @@ The framework supports responsive layout validations by adjusting browser window
 Screen size is controlled via the `screenType` system property and is automatically handled by the `DriverManager`
 and `NavigationFactory`.
 
+<br/>
+
+### Email Testing (MailSlurp)
+
+This project includes automated tests that verify password reset and other email-based workflows.
+To support this functionality, the tests use the email testing service [MailSlurp](https://app.mailslurp.com/).
+
+MaiSlurp allows test to:
+
+* Create temporary inboxes
+* Receive emails sent by the application
+* Extract links or verification codes from those emails
+* Clean up inboxes after test executions
+
+Each email test dynamically creates **a unique inbox per test run**, ensuring tests remain isolated and do not interfere
+with each other.
+
+#### Why do the Email Tests only run in certain CI configurations?
+
+Because each email test creates a temporary inbox, running them across all browser combinations would quickly consume
+the inbox quota.
+
+To optimise resource usage, email tests are executed **only in the following CI configuration**:
+
+| browser | screenType | 
+|:--------|:-----------| 
+| chrome  | desktop    | 
+| chrome  | mobile     | 
+
+Email tests are **automatically skipped** for other combinations.
+
+This behaviour is controlled by a Cucumber `@email` tag and conditional test hooks that skip execution when the CI
+matrix configuration does not match the allowed combinations.
+
+#### MailSlurp Setup
+
+To run email tests locally or in CI, a MailSlurp API key is required.
+
+1. Create a MailSlurp Account at [https://app.mailslurp.com/](https://app.mailslurp.com/).
+
+2. Generate an **API Key** from the dashboard.
+
+3. Configure the API Key as environment variable (`MAIL_SLURP_API_KEY`)
+
+4. GitHub Actions Setup
+   In CI, the API Key should be stored as a **GitHub repository secret**:
+
+```
+MAIL_SLURP_API_KEY
+```
+
+The pipeline automatically injects this secret when running tests.
+
+#### Inbox Cleanup
+
+Each test deletes the temporary inbox after execution to prevent resource leaks and keep the MailSlurp accounts clean.
+
+<br/>
+
 ### Example Executions
 
 Desktop (default):
 
 ```bash
-mvn clean test -Dbrowser=chrome -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
+mvn clean test -Dbrowser=chrome -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD -DMAIL_SLURP_API_KEY=MAIL_SLURP_API_KEY
 ```
 
 Mobile (headless):
 
 ```bash
-mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=mobile -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
+mvn clean test -Dbrowser=chrome -Dheadless=true -DscreenType=mobile -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD -DMAIL_SLURP_API_KEY=MAIL_SLURP_API_KEY
 ```
 
 Cross-browser + mobile:
@@ -223,6 +288,8 @@ Cross-browser + mobile:
 ```bash
 mvn clean test -Dbrowser=firefox -DscreenType=mobile -DADMIN_EMAIL=ADMIN_EMAIL -DADMIN_PASSWORD=ADMIN_PASSWORD
 ```
+
+<br/>
 
 ### Report Artifacts
 

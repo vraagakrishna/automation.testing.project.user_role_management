@@ -61,7 +61,7 @@ public class JwtUtils {
         try {
             JSONParser parser = new JSONParser();
             jsonObject = (JSONObject) parser.parse(payloadJson);
-            System.out.println("jwtToken: " + payloadJson);
+            logger.info("jwtToken: " + payloadJson);
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse JWT payload: " + e.getMessage());
         }
@@ -92,7 +92,7 @@ public class JwtUtils {
         try {
             JSONParser parser = new JSONParser();
             jsonObject = (JSONObject) parser.parse(payloadJson);
-            System.out.println("jwtToken: " + payloadJson);
+            logger.info("jwtToken: " + payloadJson);
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse JWT payload: " + e.getMessage());
         }
@@ -134,7 +134,7 @@ public class JwtUtils {
         try {
             JSONParser parser = new JSONParser();
             jsonObject = (JSONObject) parser.parse(headerJson);
-            System.out.println("jwtToken: " + headerJson);
+            logger.info("jwtToken: " + headerJson);
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse JWT header: " + e.getMessage());
         }
@@ -176,8 +176,8 @@ public class JwtUtils {
         String readableUtcDate = utcTime.format(formatter);
         String readableLocalDate = localTime.format(formatter);
 
-        System.out.println(name + " UTC Time: " + readableUtcDate);
-        System.out.println(name + " Local Time: " + readableLocalDate);
+        logger.info(name + " UTC Time: " + readableUtcDate);
+        logger.info(name + " Local Time: " + readableLocalDate);
 
         LoggerManager.logToReport(name + " UTC Time: " + readableUtcDate);
         LoggerManager.logToReport(name + " Local Time: " + readableLocalDate);

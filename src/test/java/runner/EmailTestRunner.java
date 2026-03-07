@@ -11,8 +11,8 @@ import io.cucumber.testng.CucumberOptions;
                 "pretty",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
         },
-        tags = "@ui"
+        tags = "@email"
 )
-public class UiTestRunner extends BaseTestRunner {
+public class EmailTestRunner extends BaseTestRunner {
 
 }
