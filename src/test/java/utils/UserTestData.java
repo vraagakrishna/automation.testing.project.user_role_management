@@ -92,6 +92,10 @@ public class UserTestData {
     public void generateRealEmail() throws Exception {
         emailService = new MailSlurpEmailService(ConfigManager.getMailSlurpApiKey());
         inbox = emailService.createInbox();
+
+        if (inbox == null)
+            return;
+
         logger.info("Generated Email: " + inbox.getEmailAddress());
         logger.info("Associated Inbox ID: " + inbox.getId());
         realEmail = inbox.getEmailAddress();

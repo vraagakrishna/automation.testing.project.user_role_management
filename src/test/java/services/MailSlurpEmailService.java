@@ -32,10 +32,16 @@ public class MailSlurpEmailService {
     // </editor-fold>
 
     // <editor-fold desc="Public Methods">
-    public InboxDto createInbox() throws Exception {
+    public InboxDto createInbox() {
         logger.info("Creating Inbox");
-        return inboxApi.createInboxWithDefaults()
-                       .execute();
+        try {
+            return inboxApi.createInboxWithDefaults()
+                           .execute();
+        } catch (Exception ex) {
+            LoggerManager.logToReport("Failed to create inbox: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public Email waitForEmail(UUID inboxId, long timeoutMillis) throws Exception {

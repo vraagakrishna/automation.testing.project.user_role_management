@@ -5,12 +5,18 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.User;
+import utils.LoggerManager;
 import utils.UserTestData;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class RegisterSteps extends BaseSteps {
+
+    // <editor-fold desc="Class Fields / Constants">
+    private static final Logger logger = LoggerManager.getLogger(RegisterSteps.class.getName());
+    // </editor-fold>
 
     // <editor-fold desc="Ctor">
     public RegisterSteps() {
@@ -130,11 +136,18 @@ public class RegisterSteps extends BaseSteps {
         User<Object> user = new User<>();
         UserTestData testData = new UserTestData();
 
-        //testData.generateRealEmail();  // TODO: uncomment afterwards
+        testData.generateRealEmail();  // TODO: uncomment afterwards
+
+        String email = testData.getRealEmail();
+        if (email == null) {
+            logger.info("Real email not found; defaulting to normal email");
+            LoggerManager.logToReport("Real email not found; defaulting to normal email");
+            email = testData.getEmail();
+        }
 
         user.setFirstName(testData.getFirstName());
         user.setLastName(testData.getLastName());
-        user.setEmail(testData.getRealEmail());
+        user.setEmail(email);
         user.setPassword(testData.getPassword());
         user.setConfirmPassword(testData.getPassword());
         user.setGroup(1);

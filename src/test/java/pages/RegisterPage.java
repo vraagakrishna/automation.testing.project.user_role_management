@@ -48,7 +48,6 @@ public class RegisterPage extends BasePage {
 
     public void registerUser(User<Object> user) {
         logger.info("Registering user " + user.toString());
-        LoggerManager.logToReport("Registering user: " + user);
         this.clearRegisterForm();
 
         this.enterFirstName(user.getFirstName());

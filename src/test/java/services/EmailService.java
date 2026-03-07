@@ -7,6 +7,7 @@ import utils.LoggerManager;
 import utils.UserTestData;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +25,14 @@ public class EmailService {
 
     // <editor-fold desc="Public Methods">
     public Email waitForEmail() throws Exception {
-        logger.info("Inbox ID: " + UserTestData.inbox.getId());
+        UUID inboxId = null;
+        if (UserTestData.inbox != null)
+            inboxId = UserTestData.inbox.getId();
+
+        logger.info("Inbox ID: " + inboxId);
+
+        if (inboxId == null)
+            throw new RuntimeException("No Inbox ID");
 
         int retries = 20;
         Email email = null;
@@ -32,7 +40,7 @@ public class EmailService {
             try {
                 logger.info("Attempt " + (attempt + 1));
                 email = UserTestData.emailService.waitForEmail(
-                        UserTestData.inbox.getId(), 6_000L
+                        inboxId, 6_000L
                 );
                 break; // email received
             } catch (Exception e) {
